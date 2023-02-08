@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+* {
+  box-sizing: border-box;
+  font-size: 24px;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.33rem;
+
+  /*System Colors Defined Here*/
+  --text-color: #141414;
+  --secondary-color: #c5c5c5;
+  --bg-color: #f6f6f6;
+  --overlay-darkness: #222222de;
+  --error-color: #E80000;
+}
+
+.App {
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: var(--text-color);
+  overflow-x: hidden !important;
+  // margin: 0.66rem auto;
+  // max-width: 1312px;
+  // padding: 1.33rem;
+  border-radius: 1.33rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  // height: calc(100vh - 2.33rem)
+}
+
+/* navbar TODO: STYLE THIS */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav h1 {
+  margin-right: auto;
+}
+
+nav a,
+nav button,
+nav span {
+  margin-left: 20px;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav span {
+  color: #777;
+}
+
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & input {
+    padding: 0.66rem;
+    border-radius: 1rem;
+    width: 15rem;
+  }
+}
+
+/* TODO: Style this */
+
+/* forms */
+label {
+  display: block;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+
+h1 {
+  font-size: 2.33rem;
+  text-align: center;
+  line-height: 3rem;
+}
+
+h2 {
+  font-size: 1.66rem;
+  line-height: 2rem;
+}
+
+p,
+.text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.33rem;
+}
+
+.caption {
+  font-size: 0.66rem;
+  line-height: 1rem;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.error {
+  margin-top: 0.66rem;
+  color: var(--error-color);
+  animation: nudge 500ms ease-in-out forwards;
+}
+
+@keyframes nudge {
+  0% {
+    transform: translateX(0px);
+  }
+
+  30% {
+    transform: translateX(20px);
+  }
+
+  45% {
+    transform: translateX(-16px);
+  }
+
+  52% {
+    transform: translateX(10px);
+  }
+
+  55% {
+    transform: translateX(-4px);
+  }
+
+  60% {
+    transform: translateX(2px);
+  }
+
+  61% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* On screens that are 870px or less */
+@media screen and (max-width: 870px) {
+  * {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  * {
+    font-size: 18px;
+  }
+
+  .App {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  * {
+    font-size: 16px;
+  }
+
+  .App {
+    /* display: none; */
+    padding: 0;
+  }
+
+  .App::before {
+    content: "Please give me more space...";
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    text-align: center;
+    z-index: 100;
+  }
+}

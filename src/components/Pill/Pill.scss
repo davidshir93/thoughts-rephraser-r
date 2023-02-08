@@ -1,0 +1,19 @@
+.pill {
+   border-radius: 247px;
+   text-align: center;
+   width: fit-content;
+
+   background-color: white;
+   padding: 4px 16px;
+   border: 1px solid #000000;
+}
+
+.pill--hover,
+.pill:hover {
+   background-color: var(--text-color);
+   color: var(--bg-color);
+}
+
+.pill--crossed {
+   text-decoration-line: line-through;
+}
