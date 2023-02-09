@@ -1,9 +1,15 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	deleteThought,
+	setCurrentThought,
+} from '../../redux/actions/thoughtsActions';
 import { DISTORTIONS_NAMES, TABS_THOGUHT_STATES } from '../../const';
 import { IThought } from '../../interfaces';
 import Pill from '../Pill/Pill';
 import Tabs from '../Tabs/Tabs';
 import './ThoughtCard.scss';
+import { RootState } from '../../redux/store';
 
 type ThoughtCardProps = {
 	thought: IThought;
@@ -11,10 +17,14 @@ type ThoughtCardProps = {
 
 export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	const fullName = `${thought.firstName} ${thought.lastName}`;
-	const cardInEditMode = false;
+	const cardInEditMode =
+		useSelector((state: RootState) => state).thoughtsReducer.currentThought ===
+		thought.id;
 	const editableCard = true;
 	const [tabs, setTabs] = useState(TABS_THOGUHT_STATES);
 	const [selectedTab, setSelectedTab] = useState('original');
+
+	const dispatch = useDispatch();
 
 	function onTabClick(selectedTabName: string) {
 		setTabs((prevTabs) => {
@@ -29,12 +39,18 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 		setSelectedTab(selectedTabName);
 	}
 
-	function deleteThought() {
-		console.log('please delete ' + thought.id);
+	function handleDeleteThought() {
+		console.log('deleting thought with the id of: ' + thought.id);
+		dispatch(deleteThought(thought.id));
 	}
 
 	function editThought() {
-		console.log('please edit ' + thought.id);
+		console.log(
+			'setting thought with the id of ' +
+				thought.id +
+				' to be the current thought'
+		);
+		dispatch(setCurrentThought(thought.id));
 	}
 
 	let tabContent;
@@ -49,7 +65,7 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 			<div className={`thought-card ${cardInEditMode && 'edit-mode'}`}>
 				{editableCard && (
 					<div className="editing-icons-container">
-						<i className="material-icons" onClick={deleteThought}>
+						<i className="material-icons" onClick={handleDeleteThought}>
 							delete
 						</i>
 						<i className="material-icons" onClick={editThought}>

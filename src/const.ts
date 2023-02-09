@@ -17,6 +17,12 @@ export const DISTORTIONS_NAMES = {
 	overgeneralizing: 'Overgeneralizing',
 };
 
+export type DISTORTIONS_TYPE = {
+	blackAndWhiteThinking: string;
+	catastrophizing: string;
+	overgeneralizing: string;
+};
+
 export const DISTORTIONS_DICTIONARY = {
 	doom: ['catastrophizing', 'overgeneralizing'],
 	doomed: ['catastrophizing', 'overgeneralizing'],
@@ -24,4 +30,13 @@ export const DISTORTIONS_DICTIONARY = {
 	always: ['blackAndWhiteThinking'],
 	never: ['catastrophizing', 'overgeneralizing'],
 	test: ['overgeneralizing'],
+};
+
+export type DISTORTIONS_DICTIONARY_TYPE = {
+	doom: string[];
+	doomed: string[];
+	all: string[];
+	always: string[];
+	never: string[];
+	test: string[];
 };

@@ -1,8 +1,10 @@
+import { DISTORTIONS_TYPE } from './const';
+
 export interface IThought {
 	id: string;
 	original: string;
 	rephrased: string;
-	distortions: string[];
+	distortions: (keyof DISTORTIONS_TYPE)[];
 	createdBy: String;
 	firstName: String;
 	lastName: String;
@@ -10,4 +12,5 @@ export interface IThought {
 
 export interface IState {
 	thoughts: IThought[];
+	currentThought: string;
 }
