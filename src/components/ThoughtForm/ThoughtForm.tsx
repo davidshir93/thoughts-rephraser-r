@@ -63,6 +63,8 @@ export default function ThoughtForm() {
 		source: 'original' | 'rephrased',
 		text: string
 	) {
+		// TODO: Debounce this to prevent too much calls while typing
+		console.log('checkDist func being called now');
 		if (source === 'original') setOriginalDistortions([]);
 		if (source === 'rephrased') setRephrasedDistortions([]);
 
@@ -106,13 +108,11 @@ export default function ThoughtForm() {
 	}
 
 	function onOriginalInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-		const text = e.target.value;
-		setOriginal(text);
+		setOriginal(e.target.value);
 	}
 
 	function onRephrasedInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-		const text = e.target.value;
-		setRephrased(text);
+		setRephrased(e.target.value);
 	}
 
 	const formIsValid =
