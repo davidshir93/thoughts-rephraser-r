@@ -3,7 +3,7 @@
 
 * {
   box-sizing: border-box;
-  font-size: 24px;
+  font-size: 20px;
   font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
@@ -24,76 +24,13 @@
   text-align: center;
   color: var(--text-color);
   overflow-x: hidden !important;
-  // margin: 0.66rem auto;
-  // max-width: 1312px;
-  // padding: 1.33rem;
+  margin: 0.66rem auto;
+  max-width: 1312px;
+  padding: 1.33rem;
   border-radius: 1.33rem;
   width: 100%;
   margin: 0 auto;
   padding: 1rem;
-  // height: calc(100vh - 2.33rem)
-}
-
-/* navbar TODO: STYLE THIS */
-nav {
-  display: flex;
-  align-items: center;
-}
-
-nav h1 {
-  margin-right: auto;
-}
-
-nav a,
-nav button,
-nav span {
-  margin-left: 20px;
-}
-
-nav a {
-  color: #444;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-nav span {
-  color: #777;
-}
-
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  & input {
-    padding: 0.66rem;
-    border-radius: 1rem;
-    width: 15rem;
-  }
-}
-
-/* TODO: Style this */
-
-/* forms */
-label {
-  display: block;
-  margin-bottom: 10px;
-  margin-top: 20px;
-}
-
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 
 h1 {
@@ -105,6 +42,7 @@ h1 {
 h2 {
   font-size: 1.66rem;
   line-height: 2rem;
+  margin-bottom: 1rem;
 }
 
 p,
@@ -128,6 +66,24 @@ p,
   margin-top: 0.66rem;
   color: var(--error-color);
   animation: nudge 500ms ease-in-out forwards;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.66rem;
+
+
+  input {
+    padding: 0.6rem;
+    min-width: 16rem;
+    border-radius: 10rem;
+  }
+
+  .tr-button {
+    margin-top: 0.66rem;
+  }
 }
 
 @keyframes nudge {
@@ -177,13 +133,13 @@ p,
 /* On screens that are 870px or less */
 @media screen and (max-width: 870px) {
   * {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
 @media screen and (max-width: 500px) {
   * {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .App {

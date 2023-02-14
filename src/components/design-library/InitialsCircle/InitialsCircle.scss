@@ -1,0 +1,12 @@
+.initials-circle {
+   border-radius: 4rem;
+   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 2.66rem;
+   height: 2.66rem;
+   background-color: var(--secondary-color);
+   border: 1px solid var(--text-color);
+   cursor: pointer;
+}

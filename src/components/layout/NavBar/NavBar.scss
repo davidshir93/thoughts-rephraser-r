@@ -1,0 +1,34 @@
+.navbar-container {
+   display: flex;
+   width: 100%;
+   align-items: center;
+   justify-content: space-between;
+   margin: 1rem 0;
+   min-height: 2rem;
+
+   h2 {
+      margin-bottom: 0;
+   }
+
+   .right-side {
+      display: flex;
+      // gap: 1rem;
+      align-items: center;
+
+      .guest,
+      .logged,
+      a {
+         margin-left: 1rem;
+         align-items: center;
+         display: flex;
+         // gap: 1rem;
+         text-decoration: none;
+         color: var(--text-color)
+      }
+
+      a.active {
+         font-weight: 600;
+      }
+   }
+
+}

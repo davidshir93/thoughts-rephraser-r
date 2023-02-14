@@ -2,9 +2,9 @@ import './Button.scss';
 
 type ButtonProps = {
 	label: string;
-	disabled: boolean;
-	type: 'primary' | 'secondary';
-	onClick: () => void;
+	disabled?: boolean;
+	type: 'primary' | 'secondary' | 'sumbit';
+	onClick?: () => void;
 };
 
 export default function Button({
@@ -15,10 +15,10 @@ export default function Button({
 }: ButtonProps) {
 	return (
 		<button
-			type="button"
 			className={`tr-button ${type} ${disabled && 'disabled'}`}
 			disabled={disabled}
-			onClick={onClick}>
+			onClick={onClick}
+			type={type === 'sumbit' ? 'submit' : 'button'}>
 			{label}
 		</button>
 	);

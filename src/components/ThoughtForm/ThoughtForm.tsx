@@ -11,8 +11,8 @@ import {
 	editThought,
 	setCurrentThought,
 } from '../../redux/actions/thoughtsActions';
-import Button from '../Button/Button';
-import Pill from '../Pill/Pill';
+import Button from '../design-library/Button/Button';
+import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { RootState } from '../../redux/store';

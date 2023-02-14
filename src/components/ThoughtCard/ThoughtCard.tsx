@@ -6,8 +6,8 @@ import {
 } from '../../redux/actions/thoughtsActions';
 import { DISTORTIONS_NAMES, TABS_THOGUHT_STATES } from '../../const';
 import { IThought } from '../../interfaces';
-import Pill from '../Pill/Pill';
-import Tabs from '../Tabs/Tabs';
+import Pill from '../design-library/Pill/Pill';
+import Tabs from '../design-library/Tabs/Tabs';
 import './ThoughtCard.scss';
 import { RootState } from '../../redux/store';
 
