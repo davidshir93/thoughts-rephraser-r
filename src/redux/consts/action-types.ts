@@ -1,7 +1,13 @@
-export enum ActionTypes {
+export enum ThoughtsActionTypes {
 	SET_THOUGHTS = 'SET_THOUGHTS',
 	ADD_THOUGHT = 'ADD_THOUGHT',
 	DELETE_THOUGHT = 'DELETE_THOUGHT',
 	SET_CURRENT_THOUGHT = 'SET_CURRENT_THOUGHT',
 	EDIT_THOUGHT = 'EDIT_THOUGHT',
+}
+
+export enum AuthActionTypes {
+	LOG_IN = 'LOG_IN',
+	SIGN_UP = 'SIGN_UP',
+	LOG_OUT = 'LOG_OUT',
 }

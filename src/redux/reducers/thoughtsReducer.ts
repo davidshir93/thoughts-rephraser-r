@@ -1,32 +1,32 @@
-import { ActionTypes } from '../consts/action-types';
-import { IThought, IState } from '../../interfaces';
+import { ThoughtsActionTypes } from '../consts/action-types';
+import { IThought, IThoughtsState } from '../../interfaces';
 
 interface SetThoughtsAction {
-	type: ActionTypes.SET_THOUGHTS;
+	type: ThoughtsActionTypes.SET_THOUGHTS;
 	payload: IThought[];
 }
 
 interface AddThoughtAction {
-	type: ActionTypes.ADD_THOUGHT;
+	type: ThoughtsActionTypes.ADD_THOUGHT;
 	payload: IThought;
 }
 
 interface DeleteThoughtAction {
-	type: ActionTypes.DELETE_THOUGHT;
+	type: ThoughtsActionTypes.DELETE_THOUGHT;
 	payload: string;
 }
 
 interface SetCurrentThoughtAction {
-	type: ActionTypes.SET_CURRENT_THOUGHT;
+	type: ThoughtsActionTypes.SET_CURRENT_THOUGHT;
 	payload: string;
 }
 
 interface EditThoughtAction {
-	type: ActionTypes.EDIT_THOUGHT;
+	type: ThoughtsActionTypes.EDIT_THOUGHT;
 	payload: IThought;
 }
 
-const initState: IState = {
+const initState: IThoughtsState = {
 	thoughts: [
 		{
 			id: '1',
@@ -62,7 +62,7 @@ const initState: IState = {
 };
 
 export const thoughtsReducer = (
-	state: IState = initState,
+	state: IThoughtsState = initState,
 	action:
 		| SetThoughtsAction
 		| AddThoughtAction
@@ -71,13 +71,14 @@ export const thoughtsReducer = (
 		| EditThoughtAction
 ) => {
 	switch (action.type) {
-		case ActionTypes.SET_THOUGHTS:
+		case ThoughtsActionTypes.SET_THOUGHTS:
 			return { ...state, thoughts: [...state.thoughts, ...action.payload] };
 
-		case ActionTypes.ADD_THOUGHT:
+		case ThoughtsActionTypes.ADD_THOUGHT:
+			console.log('adding thoguht', action.payload);
 			return { ...state, thoughts: [...state.thoughts, action.payload] };
 
-		case ActionTypes.DELETE_THOUGHT:
+		case ThoughtsActionTypes.DELETE_THOUGHT:
 			return {
 				...state,
 				thoughts: state.thoughts.filter(
@@ -85,10 +86,10 @@ export const thoughtsReducer = (
 				),
 			};
 
-		case ActionTypes.SET_CURRENT_THOUGHT:
+		case ThoughtsActionTypes.SET_CURRENT_THOUGHT:
 			return { ...state, currentThought: action.payload };
 
-		case ActionTypes.EDIT_THOUGHT:
+		case ThoughtsActionTypes.EDIT_THOUGHT:
 			return {
 				...state,
 				thoughts: state.thoughts.map((thought) => {
