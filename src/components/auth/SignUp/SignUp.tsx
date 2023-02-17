@@ -34,7 +34,7 @@ export default function SignUp() {
 				/>
 				<label htmlFor="password">Password</label>
 				<input type="password" ref={password} id="password" />
-				<Button label="SignUp" type="sumbit" />
+				<Button label="Sign up" type="sumbit" />
 			</form>
 		</>
 	);

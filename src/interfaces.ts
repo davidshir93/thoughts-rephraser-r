@@ -10,7 +10,11 @@ export interface IThought {
 	lastName: String;
 }
 
-export interface IState {
+export interface IThoughtsState {
 	thoughts: IThought[];
 	currentThought: string;
+}
+
+export interface IAuthState {
+	user: Object;
 }

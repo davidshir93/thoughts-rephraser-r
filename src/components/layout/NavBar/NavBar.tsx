@@ -5,9 +5,12 @@ import './NavBar.scss';
 
 export default function NavBar() {
 	const logged = false;
+	// const logged = true;
 	return (
 		<div className="navbar-container">
-			<h2>Thoughts Rephraser</h2>
+			<Link to="/">
+				<h2>Thoughts Rephraser</h2>
+			</Link>
 			<div className="right-side">
 				<NavLink to="/">Home</NavLink>
 				<NavLink to="/learn">Learn</NavLink>
