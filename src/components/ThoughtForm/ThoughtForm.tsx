@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
 	DISTORTIONS_DICTIONARY,
 	DISTORTIONS_DICTIONARY_TYPE,
@@ -10,22 +10,21 @@ import {
 	addThought,
 	editThought,
 	setCurrentThought,
-} from '../../redux/actions/thoughtsActions';
+} from '../../features/thoughts/thoughtsSlice';
 import Button from '../design-library/Button/Button';
 import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
 import { v4 as uuidv4 } from 'uuid';
-import { RootState } from '../../redux/store';
 
 export default function ThoughtForm() {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const userLogged = true;
 
 	// Handeling Edit Mode
-	const thoguhts = useSelector((state: RootState) => state).thoughtsReducer
-		.thoughts;
-	const currentThoughtId = useSelector((state: RootState) => state)
-		.thoughtsReducer.currentThought;
+	const thoguhts = useAppSelector((state) => state).thoughts.thoughts;
+	const currentThoughtId = useAppSelector(
+		(state) => state.thoughts.currentThoughtId
+	);
 	const currentThoughtObj = currentThoughtId
 		? thoguhts.find((thoguht) => thoguht.id === currentThoughtId)
 		: null;

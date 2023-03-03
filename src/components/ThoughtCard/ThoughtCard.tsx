@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
 	deleteThought,
 	setCurrentThought,
-} from '../../redux/actions/thoughtsActions';
+} from '../../features/thoughts/thoughtsSlice';
 import { DISTORTIONS_NAMES, TABS_THOGUHT_STATES } from '../../const';
 import { IThought } from '../../interfaces';
 import Pill from '../design-library/Pill/Pill';
 import Tabs from '../design-library/Tabs/Tabs';
 import './ThoughtCard.scss';
-import { RootState } from '../../redux/store';
 
 type ThoughtCardProps = {
 	thought: IThought;
@@ -18,13 +17,12 @@ type ThoughtCardProps = {
 export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	const fullName = `${thought.firstName} ${thought.lastName}`;
 	const cardInEditMode =
-		useSelector((state: RootState) => state).thoughtsReducer.currentThought ===
-		thought.id;
+		useAppSelector((state) => state).thoughts.currentThoughtId === thought.id;
 	const editableCard = true;
 	const [tabs, setTabs] = useState(TABS_THOGUHT_STATES);
 	const [selectedTab, setSelectedTab] = useState('original');
 
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	function onTabClick(selectedTabName: string) {
 		setTabs((prevTabs) => {
@@ -40,17 +38,11 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	}
 
 	function handleDeleteThought() {
-		console.log('deleting thought with the id of: ' + thought.id);
-		dispatch(deleteThought(thought.id));
+		dispatch(deleteThought(thought.id || ''));
 	}
 
 	function editThought() {
-		console.log(
-			'setting thought with the id of ' +
-				thought.id +
-				' to be the current thought'
-		);
-		dispatch(setCurrentThought(thought.id));
+		dispatch(setCurrentThought(thought.id || ''));
 	}
 
 	let tabContent;
@@ -77,7 +69,9 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 				{tabContent}
 
 				<div className="distortions-tags-container">
-					{thought.distortions.length > 0 &&
+					{thought &&
+						thought.distortions &&
+						thought.distortions.length > 0 &&
 						thought.distortions.map((distortion) => (
 							<Pill
 								key={distortion}
