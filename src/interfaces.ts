@@ -14,3 +14,7 @@ export interface IThoughtsState {
 	thoughts: IThought[];
 	currentThoughtId: string;
 }
+
+export interface IAuthState {
+	user: Object;
+}
