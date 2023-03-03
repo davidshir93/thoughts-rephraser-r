@@ -10,7 +10,7 @@ export interface IThought {
 	lastName: String;
 }
 
-export interface IState {
+export interface IThoughtsState {
 	thoughts: IThought[];
-	currentThought: string;
+	currentThoughtId: string;
 }
