@@ -1,12 +1,17 @@
 import { useRef } from 'react';
 import Button from '../../design-library/Button/Button';
 import './SignUp.scss';
+import { auth } from '../../../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
 	const firstName = useRef<HTMLInputElement>(null);
 	const lastName = useRef<HTMLInputElement>(null);
 	const email = useRef<HTMLInputElement>(null);
 	const password = useRef<HTMLInputElement>(null);
+
+	const navigate = useNavigate();
 
 	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
@@ -15,6 +20,13 @@ export default function SignUp() {
 		console.log('lastName ', lastName.current!.value);
 		console.log('email ', email.current!.value);
 		console.log('password ', password.current!.value);
+		createUserWithEmailAndPassword(
+			auth,
+			email?.current?.value || '',
+			password?.current?.value || ''
+		).then(() => {
+			navigate('/');
+		});
 	}
 
 	return (
