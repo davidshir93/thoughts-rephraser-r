@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function ThoughtForm() {
 	const dispatch = useAppDispatch();
-	const userLogged = true;
+	const user = useAppSelector((state) => state.user.user);
 
 	// Handeling Edit Mode
 	const thoguhts = useAppSelector((state) => state).thoughts.thoughts;
@@ -119,7 +119,7 @@ export default function ThoughtForm() {
 
 	function handleSumbit() {
 		console.log('please sumbit form form is valid?', formIsValid);
-		if (userLogged && formIsValid) {
+		if (user?.uid && formIsValid) {
 			setErrorMsg('');
 			const payload = {
 				id: currentThoughtId || uuidv4(),
@@ -127,9 +127,9 @@ export default function ThoughtForm() {
 				rephrased,
 				distortions: originalDistortions,
 				// TODO: replace this with user data
-				createdBy: '332e42332',
-				firstName: 'David',
-				lastName: 'Shir',
+				createdBy: user.uid || '',
+				firstName: user.displayName.split(' ')[0],
+				lastName: user.displayName.split(' ')[1],
 			};
 			if (editMode) {
 				dispatch(setCurrentThought(''));
@@ -198,7 +198,7 @@ export default function ThoughtForm() {
 						{errorMsg && <div className="error caption">{errorMsg}</div>}
 						<Button
 							label={editMode ? 'Save Changes' : 'Share with the community'}
-							disabled={!userLogged}
+							disabled={!user}
 							onClick={handleSumbit}
 							type="primary"
 						/>

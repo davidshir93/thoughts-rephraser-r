@@ -5,9 +5,9 @@ export interface IThought {
 	original: string;
 	rephrased: string;
 	distortions: (keyof DISTORTIONS_TYPE)[];
-	createdBy: String;
-	firstName: String;
-	lastName: String;
+	createdBy: string;
+	firstName: string;
+	lastName: string;
 }
 
 export interface IThoughtsState {
@@ -15,6 +15,14 @@ export interface IThoughtsState {
 	currentThoughtId: string;
 }
 
-export interface IAuthState {
-	user: Object;
+export interface IUserState {
+	user: IUser | null;
+	loading: boolean;
+}
+
+export interface IUser {
+	email: string;
+	uid: string;
+	displayName: string;
+	photoUrl: string;
 }

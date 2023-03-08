@@ -18,7 +18,9 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	const fullName = `${thought.firstName} ${thought.lastName}`;
 	const cardInEditMode =
 		useAppSelector((state) => state).thoughts.currentThoughtId === thought.id;
-	const editableCard = true;
+
+	const user = useAppSelector((state) => state.user.user);
+	const editableCard = user ? thought.createdBy === user.uid : false;
 	const [tabs, setTabs] = useState(TABS_THOGUHT_STATES);
 	const [selectedTab, setSelectedTab] = useState('original');
 

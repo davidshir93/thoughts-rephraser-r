@@ -6,11 +6,11 @@ import Learn from './components/layout/Learn/Learn';
 import About from './components/layout/About/About';
 import Login from './components/auth/Login/Login';
 import SignUp from './components/auth/SignUp/SignUp';
+
 function App() {
 	return (
 		<BrowserRouter>
 			<div className="App">
-				{/* <h1>Thoughts Rephraser</h1> */}
 				<NavBar />
 				<Routes>
 					<Route path="/" element={<Home />} />
