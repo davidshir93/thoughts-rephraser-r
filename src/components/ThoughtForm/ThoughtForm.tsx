@@ -117,6 +117,11 @@ export default function ThoughtForm() {
 	const formIsValid =
 		original !== '' && rephrased !== '' && rephrasedDistortions.length < 1;
 
+	const clearForm = () => {
+		setOriginal('');
+		setRephrased('');
+	};
+
 	function handleSumbit() {
 		console.log('please sumbit form form is valid?', formIsValid);
 		if (user?.uid && formIsValid) {
@@ -137,6 +142,7 @@ export default function ThoughtForm() {
 			} else {
 				dispatch(addThought(payload));
 			}
+			clearForm();
 		} else {
 			setErrorMsg('Please check the form');
 		}

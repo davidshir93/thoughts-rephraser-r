@@ -8,13 +8,16 @@ import {
 	signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-
+import { useAppDispatch } from '../../../app/hooks';
+import { login } from '../../../features/user/userSlice';
 export default function Login() {
 	const email = useRef<HTMLInputElement>(null);
 	const password = useRef<HTMLInputElement>(null);
 
 	const navigate = useNavigate();
 	const [authing, setAuthing] = useState(false);
+
+	const dispatch = useAppDispatch();
 
 	const signInWithGoogle = async () => {
 		setAuthing(true);
@@ -31,32 +34,27 @@ export default function Login() {
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log('submit login form');
-		console.log('email ', email.current!.value);
-		console.log('password ', password.current!.value);
-		// await loginToApp(e);
-		await signInWithEmailAndPassword(
-			auth,
-			email.current!.value,
-			password.current!.value
-		)
-			// returns  an auth object after a successful authentication
-			// userAuth.user contains all our user details
-			.then((userAuth) => {
-				// store the user's information in the redux state
-				// dispatch(
-				// 	login({
-				// 		email: userAuth.user.email,
-				// 		uid: userAuth.user.uid,
-				// 		displayName: userAuth.user.displayName,
-				// 		photoUrl: userAuth.user.photoURL,
-				// 	})
-				// );
-			})
-			// display the error if any
-			.catch((err) => {
-				alert(err);
-			});
+		setAuthing(true);
+		try {
+			const userAuth = await signInWithEmailAndPassword(
+				auth,
+				email.current!.value,
+				password.current!.value
+			);
+
+			dispatch(
+				login({
+					email: userAuth.user.email!,
+					uid: userAuth.user.uid,
+					displayName: userAuth.user.displayName!,
+					photoUrl: userAuth.user.photoURL!,
+				})
+			);
+			setAuthing(false);
+			navigate('/');
+		} catch (err) {
+			alert(err);
+		}
 	}
 
 	return (
@@ -72,7 +70,7 @@ export default function Login() {
 				/>
 				<label htmlFor="password">Password</label>
 				<input type="password" ref={password} id="password" />
-				<Button label="Login" type="sumbit" />
+				<Button disabled={authing} label="Login" type="sumbit" />
 				<Button
 					label="Login With Google"
 					type="primary"

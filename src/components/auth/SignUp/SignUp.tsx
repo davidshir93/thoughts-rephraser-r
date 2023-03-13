@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 import Button from '../../design-library/Button/Button';
 import './SignUp.scss';
-import { auth } from '../../../firebase';
+import { auth, updateProfile } from '../../../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../../app/hooks';
+import { login } from '../../../features/user/userSlice';
 
 export default function SignUp() {
 	const firstName = useRef<HTMLInputElement>(null);
@@ -12,21 +14,32 @@ export default function SignUp() {
 	const password = useRef<HTMLInputElement>(null);
 
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
-	function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		console.log('submit SignUp form');
-		console.log('firstName ', firstName.current!.value);
-		console.log('lastName ', lastName.current!.value);
-		console.log('email ', email.current!.value);
-		console.log('password ', password.current!.value);
-		createUserWithEmailAndPassword(
+
+		const userAuth = await createUserWithEmailAndPassword(
 			auth,
 			email?.current?.value || '',
 			password?.current?.value || ''
-		).then(() => {
-			navigate('/');
+		);
+
+		await updateProfile(userAuth.user, {
+			displayName: firstName.current!.value + ' ' + lastName.current!.value,
+			photoURL: '/',
 		});
+
+		dispatch(
+			login({
+				email: userAuth.user.email!,
+				uid: userAuth.user.uid,
+				displayName: userAuth.user.displayName!,
+				photoUrl: userAuth.user.photoURL!,
+			})
+		);
+
+		navigate('/');
 	}
 
 	return (
