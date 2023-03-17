@@ -1,3 +1,4 @@
+import firebase from 'firebase/app';
 import { DISTORTIONS_TYPE } from './const';
 
 export interface IThought {
@@ -8,9 +9,12 @@ export interface IThought {
 	createdBy: string;
 	firstName: string;
 	lastName: string;
+	createdAt: Date;
 }
 
 export interface IThoughtsState {
+	isLoading: boolean;
+	error: string;
 	thoughts: IThought[];
 	currentThoughtId: string;
 }

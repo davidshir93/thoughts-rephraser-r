@@ -133,6 +133,7 @@ export default function ThoughtForm() {
 				distortions: originalDistortions,
 				// TODO: replace this with user data
 				createdBy: user.uid || '',
+				createdAt: new Date(),
 				firstName: user.displayName.split(' ')[0],
 				lastName: user.displayName.split(' ')[1],
 			};
