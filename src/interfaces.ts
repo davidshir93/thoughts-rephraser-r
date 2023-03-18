@@ -1,4 +1,3 @@
-import firebase from 'firebase/app';
 import { DISTORTIONS_TYPE } from './const';
 
 export interface IThought {
@@ -9,7 +8,7 @@ export interface IThought {
 	createdBy: string;
 	firstName: string;
 	lastName: string;
-	createdAt: Date;
+	createdAt: string;
 }
 
 export interface IThoughtsState {
