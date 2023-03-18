@@ -8,13 +8,12 @@ import {
 } from '../../const';
 import {
 	addThought,
-	editThought,
+	updateThought,
 	setCurrentThought,
 } from '../../features/thoughts/thoughtsSlice';
 import Button from '../design-library/Button/Button';
 import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
-import { v4 as uuidv4 } from 'uuid';
 
 export default function ThoughtForm() {
 	const dispatch = useAppDispatch();
@@ -127,21 +126,20 @@ export default function ThoughtForm() {
 		if (user?.uid && formIsValid) {
 			setErrorMsg('');
 			const payload = {
-				id: currentThoughtId || uuidv4(),
+				id: currentThoughtId || '',
 				original,
 				rephrased,
 				distortions: originalDistortions,
-				// TODO: replace this with user data
 				createdBy: user.uid || '',
-				createdAt: new Date(),
+				createdAt: new Date().toISOString(),
 				firstName: user.displayName.split(' ')[0],
 				lastName: user.displayName.split(' ')[1],
 			};
 			if (editMode) {
-				dispatch(setCurrentThought(''));
-				dispatch(editThought(payload));
+				dispatch(updateThought(payload));
 			} else {
 				dispatch(addThought(payload));
+				dispatch(setCurrentThought(''));
 			}
 			clearForm();
 		} else {

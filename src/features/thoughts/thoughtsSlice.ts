@@ -3,42 +3,19 @@ import { IThought, IThoughtsState } from '../../interfaces';
 
 // Adding firestore imports in order to handle operations directly from the thoughts slice:
 import { db } from '../../firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import {
+	collection,
+	addDoc,
+	getDocs,
+	deleteDoc,
+	updateDoc,
+	doc,
+} from 'firebase/firestore';
 
 const initialState: IThoughtsState = {
 	isLoading: false,
 	error: '',
-	thoughts: [
-		// {
-		// 	id: '1',
-		// 	original: 'I’m a total mess and I can’t focus at all, I’ll never succeed',
-		// 	rephrased:
-		// 		'I’m having a hard time focusing right now, but I’ve had and will have different experiences',
-		// 	distortions: [
-		// 		'blackAndWhiteThinking',
-		// 		'catastrophizing',
-		// 		'overgeneralizing',
-		// 	],
-		// 	createdBy: 'davidshir',
-		// 	firstName: 'David',
-		// 	lastName: 'Shir',
-		// },
-		// {
-		// 	id: '2',
-		// 	original:
-		// 		'I don’t know how to handle social situations and I doomed to be alone',
-		// 	rephrased:
-		// 		'I’m having a difficult time with some of my social interactions, but not all of them are bad',
-		// 	distortions: [
-		// 		'blackAndWhiteThinking',
-		// 		'catastrophizing',
-		// 		'overgeneralizing',
-		// 	],
-		// 	createdBy: 'davidshir',
-		// 	firstName: 'David',
-		// 	lastName: 'Shir',
-		// },
-	],
+	thoughts: [],
 	currentThoughtId: '',
 };
 
@@ -62,7 +39,7 @@ const thoughtsSlice = createSlice({
 		setError: (state, action: PayloadAction<string>) => {
 			state.error = action.payload;
 		},
-		deleteThought: (state, action: PayloadAction<string>) => {
+		deleteThoughtSuccess: (state, action: PayloadAction<string>) => {
 			state.thoughts = state.thoughts.filter(
 				(thought) => thought.id !== action.payload
 			);
@@ -70,7 +47,7 @@ const thoughtsSlice = createSlice({
 		setCurrentThought: (state, action: PayloadAction<string>) => {
 			state.currentThoughtId = action.payload;
 		},
-		editThought: (state, action: PayloadAction<IThought>) => {
+		updateThoughtSuccess: (state, action: PayloadAction<IThought>) => {
 			state.thoughts = state.thoughts.map((thought) => {
 				if (thought.id === action.payload.id) {
 					return action.payload;
@@ -83,14 +60,13 @@ const thoughtsSlice = createSlice({
 
 export default thoughtsSlice.reducer;
 export const {
-	// setThoughts,
 	fetchThoughtsSuccess,
 	addThoughtSuccess,
 	setLoading,
 	setError,
 	setCurrentThought,
-	deleteThought,
-	editThought,
+	deleteThoughtSuccess,
+	updateThoughtSuccess,
 } = thoughtsSlice.actions;
 
 export const handleError = (dispatch: any, error: any) => {
@@ -100,6 +76,7 @@ export const handleError = (dispatch: any, error: any) => {
 		dispatch(setError(`'Unexpected error ${error}`));
 	}
 };
+
 export const fetchThoughts = () => async (dispatch: any) => {
 	dispatch(setLoading(true));
 	try {
@@ -107,7 +84,7 @@ export const fetchThoughts = () => async (dispatch: any) => {
 		const snapshot = await getDocs(collection(db, 'thoughts'));
 
 		const Thoughts = snapshot.docs.map(
-			(doc) => ({ id: doc.id, ...doc.data() } as IThought)
+			(doc) => ({ ...doc.data() } as IThought)
 		);
 		dispatch(fetchThoughtsSuccess(Thoughts));
 	} catch (error) {
@@ -119,16 +96,42 @@ export const fetchThoughts = () => async (dispatch: any) => {
 export const addThought =
 	(thought: Omit<IThought, 'id'>) => async (dispatch: any) => {
 		try {
-			const timestamp = new Date();
 			// Add a new document with a generated id.
-			const docRef = await addDoc(collection(db, 'thoughts'), {
-				...thought,
-				createdAt: timestamp,
+			const docRef = await addDoc(collection(db, 'thoughts'), thought);
+
+			// Set the "id" field of the thought with the new returned id
+			await updateDoc(docRef, {
+				id: docRef.id,
 			});
-			console.log('Document written with ID: ', docRef.id);
-			const newThought = { id: docRef.id, ...thought };
+
+			const newThought = { ...thought, id: docRef.id };
+
 			dispatch(addThoughtSuccess(newThought));
 		} catch (error) {
 			handleError(dispatch, error);
 		}
 	};
+
+export const deleteThought = (id: string) => async (dispatch: any) => {
+	try {
+		await deleteDoc(doc(db, 'thoughts', id));
+		dispatch(deleteThoughtSuccess(id));
+	} catch (error) {
+		handleError(dispatch, error);
+	}
+};
+
+export const updateThought = (thought: IThought) => async (dispatch: any) => {
+	try {
+		const editedDocRef = doc(db, 'thoughts', thought.id);
+
+		await updateDoc(editedDocRef, {
+			...thought,
+		});
+
+		dispatch(updateThoughtSuccess(thought));
+		dispatch(setCurrentThought(''));
+	} catch (error) {
+		handleError(dispatch, error);
+	}
+};
