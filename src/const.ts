@@ -12,31 +12,43 @@ export const TABS_THOGUHT_STATES = [
 ];
 
 export const DISTORTIONS_NAMES = {
-	blackAndWhiteThinking: 'Black and White Thinking',
+	blackandwhitethinking: 'Black and White Thinking',
+	catastrophization: 'Catastrophizing',
 	catastrophizing: 'Catastrophizing',
-	overgeneralizing: 'Overgeneralizing',
+	sensationalizing: 'Sensationalizing',
+	overgeneralization: 'Generalization',
+	overgeneralizing: 'Generalization',
+	generalization: 'Generalization',
+	allornothingthinking: 'All-or-Nothing Thinking',
+	mindreading: 'Mind Reading',
+	personalization: 'Personalization',
+	personalizing: 'Personalization',
+	emotionalReasoning: 'Emotional reasoning',
+	labeling: 'Labeling',
+	negativefiltering: 'Negative filtering',
+	fortunetelling: 'Fortune-telling',
+	jumpingtoconclusions: 'Jumping to Conclusions',
+	rationalization: 'Rationalization',
 };
 
 export type DISTORTIONS_TYPE = {
-	blackAndWhiteThinking: string;
+	blackandwhitethinking: string;
 	catastrophizing: string;
+	sensationalizing: string;
+	overgeneralization: string;
+	generalization: string;
 	overgeneralizing: string;
+	allornothingthinking: string;
+	mindreading: string;
+	personalization: string;
+	personalizing: string;
+	emotionalReasoning: string;
+	labeling: string;
+	negativefiltering: string;
+	fortunetelling: string;
+	jumpingtoconclusions: string;
+	rationalization: string;
 };
 
-export const DISTORTIONS_DICTIONARY = {
-	doom: ['catastrophizing', 'overgeneralizing'],
-	doomed: ['catastrophizing', 'overgeneralizing'],
-	all: ['blackAndWhiteThinking'],
-	always: ['blackAndWhiteThinking'],
-	never: ['catastrophizing', 'overgeneralizing'],
-	test: ['overgeneralizing'],
-};
-
-export type DISTORTIONS_DICTIONARY_TYPE = {
-	doom: string[];
-	doomed: string[];
-	all: string[];
-	always: string[];
-	never: string[];
-	test: string[];
-};
+export const CHAT_GPT_API_KEY =
+	'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';

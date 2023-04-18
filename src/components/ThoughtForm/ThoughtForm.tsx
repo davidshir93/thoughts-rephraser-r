@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
-	DISTORTIONS_DICTIONARY,
-	DISTORTIONS_DICTIONARY_TYPE,
+	CHAT_GPT_API_KEY,
 	DISTORTIONS_NAMES,
 	DISTORTIONS_TYPE,
 } from '../../const';
@@ -14,6 +13,7 @@ import {
 import Button from '../design-library/Button/Button';
 import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
+import axios from 'axios';
 
 export default function ThoughtForm() {
 	const dispatch = useAppDispatch();
@@ -37,73 +37,12 @@ export default function ThoughtForm() {
 	const [originalDistortions, setOriginalDistortions] = useState<
 		(keyof DISTORTIONS_TYPE)[]
 	>([]);
-	const [rephrasedDistortions, setRephrasedDistortions] = useState<
-		(keyof DISTORTIONS_TYPE)[]
-	>([]);
 	const [errorMsg, setErrorMsg] = useState('');
 
 	useEffect(() => {
 		setOriginal(currentThoughtObj?.original || '');
 		setRephrased(currentThoughtObj?.rephrased || '');
 	}, [currentThoughtId]);
-
-	useEffect(() => {
-		checkDistortionsInText('original', original);
-	}, [original]);
-
-	useEffect(() => {
-		checkDistortionsInText('rephrased', rephrased);
-	}, [rephrased]);
-
-	const keyWords = Object.keys(DISTORTIONS_DICTIONARY);
-
-	function checkDistortionsInText(
-		source: 'original' | 'rephrased',
-		text: string
-	) {
-		// TODO: Debounce this to prevent too much calls while typing
-		console.log('checkDist func being called now');
-		if (source === 'original') setOriginalDistortions([]);
-		if (source === 'rephrased') setRephrasedDistortions([]);
-
-		text.split(' ').forEach((word) => {
-			keyWords.forEach((keyWord) => {
-				if (keyWord === word) {
-					if (source === 'original') {
-						DISTORTIONS_DICTIONARY[
-							word as keyof DISTORTIONS_DICTIONARY_TYPE
-						].forEach((matchedDistortion) => {
-							// TODO: check if you can find the currect type for the prevArr action call
-							setOriginalDistortions((prevArr: any) => {
-								if (
-									!prevArr.includes(matchedDistortion as keyof DISTORTIONS_TYPE)
-								) {
-									return [...prevArr, matchedDistortion];
-								} else {
-									return prevArr;
-								}
-							});
-						});
-					} else if (source === 'rephrased') {
-						DISTORTIONS_DICTIONARY[
-							word as keyof DISTORTIONS_DICTIONARY_TYPE
-						].forEach((matchedDistortion) => {
-							// TODO: check if you can find the currect type for the prevArr action call
-							setRephrasedDistortions((prevArr: any) => {
-								if (
-									!prevArr.includes(matchedDistortion as keyof DISTORTIONS_TYPE)
-								) {
-									return [...prevArr, matchedDistortion];
-								} else {
-									return prevArr;
-								}
-							});
-						});
-					}
-				}
-			});
-		});
-	}
 
 	function onOriginalInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
 		setOriginal(e.target.value);
@@ -113,8 +52,7 @@ export default function ThoughtForm() {
 		setRephrased(e.target.value);
 	}
 
-	const formIsValid =
-		original !== '' && rephrased !== '' && rephrasedDistortions.length < 1;
+	const formIsValid = original !== '' && rephrased !== '';
 
 	const clearForm = () => {
 		setOriginal('');
@@ -147,6 +85,47 @@ export default function ThoughtForm() {
 		}
 	}
 
+	const keyPhrases = Object.keys(DISTORTIONS_NAMES).map((keyName) =>
+		keyName.toLowerCase().replaceAll(' ', '').replaceAll('-', '')
+	);
+
+	const fireChatGPTAnalytics = async () => {
+		const response = await axios.post(
+			'https://api.openai.com/v1/completions',
+			{
+				prompt: `create a numbered list of titles of cognitive distortions can be found in this sentence: "${original}"`,
+				model: 'text-curie-001',
+				max_tokens: 1050,
+				n: 1,
+				stop: ['{}'],
+			},
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${CHAT_GPT_API_KEY}`,
+				},
+			}
+		);
+
+		console.log(response.data.choices);
+		const listOfDistortionsAsString = response.data.choices[0].text
+			.toLowerCase()
+			.replaceAll(' ', '')
+			.replaceAll('-', '');
+
+		setOriginalDistortions([]);
+
+		for (let i = 0; i < keyPhrases.length; i++) {
+			if (listOfDistortionsAsString.includes(keyPhrases[i])) {
+				if (
+					!originalDistortions.includes(keyPhrases[i] as keyof DISTORTIONS_TYPE)
+				) {
+					setOriginalDistortions((prevArr: any) => [...prevArr, keyPhrases[i]]);
+				}
+			}
+		}
+	};
+
 	return (
 		<>
 			<form action="handleSumbit" className="new-thoguht-form">
@@ -163,50 +142,57 @@ export default function ThoughtForm() {
 							value={original}
 							onChange={onOriginalInputChange}
 						/>
-						<div className="distortions-tags-container">
-							{originalDistortions.length > 0 &&
-								originalDistortions.map((distortion) => (
-									<Pill
-										key={distortion}
-										label={DISTORTIONS_NAMES[distortion]}
-										state="regular"
+						{originalDistortions && originalDistortions.length > 0 ? (
+							<>
+								<div className="distortions-tags-container">
+									{originalDistortions.length > 0 &&
+										originalDistortions.map((distortion) => (
+											<Pill
+												key={distortion}
+												label={DISTORTIONS_NAMES[distortion]}
+												state="regular"
+											/>
+										))}
+								</div>
+
+								<div className="left-side rephrased">
+									<p className="bold">Rephrased</p>
+									<p className="caption">
+										Now, try to rephrased to get rid of those cognitive
+										distortions!
+									</p>
+									<textarea
+										name="rephrased"
+										id="rephrased"
+										rows={5}
+										value={rephrased}
+										onChange={onRephrasedInputChange}
 									/>
-								))}
-						</div>
-					</div>
-					<div className="left-side rephrased">
-						<p className="bold">Rephrased</p>
-						<p className="caption">
-							Try to rephrased to get rid of those cognitive distortions!
-						</p>
-						<textarea
-							name="rephrased"
-							id="rephrased"
-							rows={5}
-							value={rephrased}
-							onChange={onRephrasedInputChange}
-						/>
-						<div className="distortions-tags-container">
-							{rephrasedDistortions.length > 0 &&
-								rephrasedDistortions.map((distortion) => (
-									<Pill
-										key={distortion}
-										label={DISTORTIONS_NAMES[distortion]}
-										state="regular"
-									/>
-								))}
-						</div>
-					</div>
-				</div>
-				<div className="bottom">
-					<div className="right-side">
-						{errorMsg && <div className="error caption">{errorMsg}</div>}
-						<Button
-							label={editMode ? 'Save Changes' : 'Share with the community'}
-							disabled={!user}
-							onClick={handleSumbit}
-							type="primary"
-						/>
+								</div>
+
+								<div className="bottom">
+									<div className="right-side">
+										{errorMsg && (
+											<div className="error caption">{errorMsg}</div>
+										)}
+										<Button
+											label={
+												editMode ? 'Save Changes' : 'Share with the community'
+											}
+											disabled={!user}
+											onClick={handleSumbit}
+											type="primary"
+										/>
+									</div>
+								</div>
+							</>
+						) : (
+							<Button
+								label="Find Cognitive Distortions"
+								onClick={fireChatGPTAnalytics}
+								type="primary"
+							/>
+						)}
 					</div>
 				</div>
 			</form>

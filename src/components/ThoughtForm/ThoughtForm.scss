@@ -23,13 +23,9 @@
       width: 50%;
    }
 
-   .left-side,
-   .right-side {
-
-      // width: 50%;
-      p {
-         margin-bottom: 0.66rem;
-      }
+   p {
+      margin-bottom: 0.66rem;
+      margin-top: 0.66rem;
    }
 
    .distortions-tags-container {
@@ -55,4 +51,15 @@ textarea {
    width: 100%;
    padding: 1rem;
    border-radius: 1rem;
+}
+
+.original,
+.rephrased {
+   margin-bottom: 0.66rem;
+   // width: 50%;
+}
+
+.rephrased {
+   margin-top: 0.66rem;
+   // width: 50%;
 }
