@@ -90,25 +90,31 @@ export default function ThoughtForm() {
 	);
 
 	const fireChatGPTAnalytics = async () => {
-		const response = await axios.post(
-			'https://api.openai.com/v1/completions',
-			{
-				prompt: `create a numbered list of titles of cognitive distortions can be found in this sentence: "${original}"`,
-				model: 'text-curie-001',
-				max_tokens: 1050,
-				n: 1,
-				stop: ['{}'],
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${CHAT_GPT_API_KEY}`,
-				},
-			}
-		);
+		// const response = await axios.post(
+		// 	'https://api.openai.com/v1/completions',
+		// 	{
+		// 		prompt: `create a numbered list of titles of cognitive distortions can be found in this sentence: "${original}"`,
+		// 		model: 'text-curie-001',
+		// 		max_tokens: 1050,
+		// 		n: 1,
+		// 		stop: ['{}'],
+		// 	},
+		// 	{
+		// 		headers: {
+		// 			'Content-Type': 'application/json',
+		// 			Authorization: `Bearer ${CHAT_GPT_API_KEY}`,
+		// 		},
+		// 	}
+		// );
 
-		console.log(response.data.choices);
-		const listOfDistortionsAsString = response.data.choices[0].text
+		const response = await axios.get('http://localhost:8000/distortions', {
+			params: { sentence: original },
+		});
+
+		// const resToUse = response.data.choices;
+		const resToUse = response.data[0].text;
+		// console.log(response.data[0].text);
+		const listOfDistortionsAsString = resToUse
 			.toLowerCase()
 			.replaceAll(' ', '')
 			.replaceAll('-', '');
