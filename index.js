@@ -17,6 +17,10 @@ const app = express();
 
 app.use(cors());
 
+import { dirname } from 'path';
+
+const __dirname = dirname(new URL(import.meta.url).pathname);
+
 if (
 	process.env.NODE_ENV === 'production' ||
 	process.env.NODE_ENV === 'staging'
