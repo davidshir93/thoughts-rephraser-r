@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
 	dotenv.config();
 }
 // dotenv.config();
+import path from 'path'; // import the path module
 
 const app = express();
 
