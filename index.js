@@ -7,7 +7,10 @@ import cors from 'cors';
 import axios from 'axios';
 // require('dotenv').config();
 import dotenv from 'dotenv';
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
+// dotenv.config();
 
 const app = express();
 
