@@ -16,9 +16,19 @@ const app = express();
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-	res.json('hi');
-});
+if (
+	process.env.NODE_ENV === 'production' ||
+	process.env.NODE_ENV === 'staging'
+) {
+	app.use(express.static(path.join(__dirname, 'client/builds')));
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname + '/client/build/index.html'));
+	});
+} else {
+	app.get('/', (req, res) => {
+		res.json('hi');
+	});
+}
 
 app.get('/distortions', async (req, res) => {
 	console.log(req.query.sentence);
