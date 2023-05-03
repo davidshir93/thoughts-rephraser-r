@@ -6,8 +6,20 @@ import Learn from './components/layout/Learn/Learn';
 import About from './components/layout/About/About';
 import Login from './components/auth/Login/Login';
 import SignUp from './components/auth/SignUp/SignUp';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { useEffect } from 'react';
+import { fetchThoughts } from './features/thoughts/thoughtsSlice';
 
 function App() {
+	const thoughts = useAppSelector((state) => state.thoughts.thoughts);
+
+	const dispatch = useAppDispatch();
+	useEffect(() => {
+		if (thoughts.length === 0) {
+			dispatch(fetchThoughts());
+		}
+	}, []);
+
 	return (
 		<BrowserRouter>
 			<div className="App">

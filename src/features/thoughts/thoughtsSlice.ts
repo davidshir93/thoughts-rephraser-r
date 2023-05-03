@@ -13,7 +13,7 @@ import {
 } from 'firebase/firestore';
 
 const initialState: IThoughtsState = {
-	isLoading: false,
+	isLoading: true,
 	error: '',
 	thoughts: [],
 	currentThoughtId: '',

@@ -11,6 +11,10 @@ import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
 import axios from 'axios';
 
+const keyPhrases = Object.keys(DISTORTIONS_NAMES).map((keyName) =>
+	keyName.toLowerCase().replaceAll(' ', '').replaceAll('-', '')
+);
+
 export default function ThoughtForm() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user.user);
@@ -34,6 +38,7 @@ export default function ThoughtForm() {
 		(keyof DISTORTIONS_TYPE)[]
 	>(currentThoughtObj?.distortions || []);
 	const [errorMsg, setErrorMsg] = useState('');
+	const [distortionsLoading, setDistortionsLoading] = useState(false);
 
 	const uniqueDistortions = useMemo(() => {
 		return Array.from(
@@ -41,11 +46,12 @@ export default function ThoughtForm() {
 				originalDistortions.map((distortion) => DISTORTIONS_NAMES[distortion])
 			)
 		);
-	}, [originalDistortions]);
+	}, [originalDistortions, editMode]);
 
 	useEffect(() => {
 		setOriginal(currentThoughtObj?.original || '');
 		setRephrased(currentThoughtObj?.rephrased || '');
+		setOriginalDistortions(currentThoughtObj?.distortions || []);
 	}, [currentThoughtId]);
 
 	function onOriginalInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -59,8 +65,12 @@ export default function ThoughtForm() {
 	const formIsValid = original !== '' && rephrased !== '';
 
 	const clearForm = () => {
+		if (editMode) {
+			dispatch(setCurrentThought(''));
+		}
 		setOriginal('');
 		setRephrased('');
+		setOriginalDistortions([]);
 	};
 
 	function handleSumbit() {
@@ -89,13 +99,9 @@ export default function ThoughtForm() {
 		}
 	}
 
-	const keyPhrases = Object.keys(DISTORTIONS_NAMES).map((keyName) =>
-		keyName.toLowerCase().replaceAll(' ', '').replaceAll('-', '')
-	);
-
 	const fireChatGPTAnalytics = async () => {
 		console.log('Looking for distortions...');
-
+		setDistortionsLoading(true);
 		const response = await axios.get('http://localhost:8000/distortions', {
 			params: { sentence: original },
 		});
@@ -120,13 +126,24 @@ export default function ThoughtForm() {
 			}
 		}
 
-		// Making sure we've found distortions, otherwise recall the function
+		// Making sure we've found some distortions, otherwise recall the function
 		if (foundDistortions.length >= 1) {
 			setOriginalDistortions(foundDistortions);
+			setDistortionsLoading(false);
 		} else {
 			fireChatGPTAnalytics();
 		}
 	};
+
+	const mainCtaText = useMemo(() => {
+		if (editMode) {
+			return 'Save Changes';
+		} else if (user) {
+			return 'Share With the Community';
+		} else {
+			return 'Log in to share with the Community';
+		}
+	}, [editMode, user]);
 
 	return (
 		<>
@@ -178,9 +195,12 @@ export default function ThoughtForm() {
 											<div className="error caption">{errorMsg}</div>
 										)}
 										<Button
-											label={
-												editMode ? 'Save Changes' : 'Share with the community'
-											}
+											label={editMode ? 'Cancel' : 'Restart'}
+											type="secondary"
+											onClick={clearForm}
+										/>
+										<Button
+											label={mainCtaText}
 											disabled={!user}
 											onClick={handleSumbit}
 											type="primary"
@@ -190,8 +210,13 @@ export default function ThoughtForm() {
 							</>
 						) : (
 							<Button
-								label="Find Cognitive Distortions"
+								label={
+									distortionsLoading
+										? 'Loading...'
+										: 'Find Cognitive Distortions'
+								}
 								onClick={fireChatGPTAnalytics}
+								disabled={distortionsLoading}
 								type="primary"
 							/>
 						)}

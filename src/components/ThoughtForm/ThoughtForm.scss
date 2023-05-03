@@ -13,10 +13,6 @@
       transition: all 300ms ease;
       height: 100%;
       align-items: start;
-
-      @media (min-width: 1200px) {
-         grid-template-columns: repeat(2, 1fr);
-      }
    }
 
    &>* {
@@ -44,6 +40,11 @@
       align-items: center;
       justify-content: center;
       width: 100%;
+
+      .right-side {
+         gap: .66rem;
+         display: flex;
+      }
    }
 }
 
@@ -60,6 +61,6 @@ textarea {
 }
 
 .rephrased {
-   margin-top: 0.66rem;
+   margin-top: 1.66rem;
    // width: 50%;
 }
