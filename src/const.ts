@@ -20,15 +20,18 @@ export const DISTORTIONS_NAMES = {
 	overgeneralizing: 'Generalization',
 	generalization: 'Generalization',
 	allornothingthinking: 'All-or-Nothing Thinking',
+	polarizedthinking: 'All-or-Nothing Thinking',
+	polarization: 'All-or-Nothing Thinking',
 	mindreading: 'Mind Reading',
 	personalization: 'Personalization',
 	personalizing: 'Personalization',
-	emotionalReasoning: 'Emotional reasoning',
+	emotionalreasoning: 'Emotional Reasoning',
 	labeling: 'Labeling',
 	negativefiltering: 'Negative filtering',
 	fortunetelling: 'Fortune-telling',
 	jumpingtoconclusions: 'Jumping to Conclusions',
 	rationalization: 'Rationalization',
+	rumination: 'Rumination',
 };
 
 export type DISTORTIONS_TYPE = {
@@ -39,16 +42,16 @@ export type DISTORTIONS_TYPE = {
 	generalization: string;
 	overgeneralizing: string;
 	allornothingthinking: string;
+	polarizedthinking: string;
+	polarization: string;
 	mindreading: string;
 	personalization: string;
 	personalizing: string;
-	emotionalReasoning: string;
+	emotionalreasoning: string;
 	labeling: string;
 	negativefiltering: string;
 	fortunetelling: string;
 	jumpingtoconclusions: string;
 	rationalization: string;
+	rumination: string;
 };
-
-export const CHAT_GPT_API_KEY =
-	'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';

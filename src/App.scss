@@ -177,3 +177,31 @@ a {
     z-index: 100;
   }
 }
+
+.loading {
+  z-index: 101;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1440px;
+  min-height: calc(100vh - 12rem);
+  width: calc(100vw - 2rem);
+
+  @keyframes spin {
+    to {
+      transform: rotateZ(360deg);
+    }
+  }
+
+  span {
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    border: 3px solid transparent;
+    border-top-color: var(--text-color);
+    border-bottom-color: var(--text-color);
+    border-radius: 50%;
+    animation: spin ease 1000ms infinite;
+  }
+}

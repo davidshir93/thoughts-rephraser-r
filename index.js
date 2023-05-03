@@ -1,17 +1,12 @@
 const port = process.env.PORT || 8000;
-// const express = require('express');
-import express, { query } from 'express';
-// const cors = require('cors');
+import express from 'express';
 import cors from 'cors';
-// const axios = require('axios');
 import axios from 'axios';
-// require('dotenv').config();
 import dotenv from 'dotenv';
 if (process.env.NODE_ENV !== 'production') {
 	dotenv.config();
 }
-// dotenv.config();
-import path from 'path'; // import the path module
+import path from 'path';
 
 const app = express();
 

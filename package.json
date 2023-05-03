@@ -4,8 +4,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"startbackend": "nodemon index.js",
+		"dev": "vite && nodemon index.js",
+		"backend": "nodemon index.js",
 		"start": "node index.js && tsc && vite build",
 		"build": "tsc && vite build",
 		"preview": "vite preview"

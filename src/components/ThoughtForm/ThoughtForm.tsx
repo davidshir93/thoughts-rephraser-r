@@ -1,10 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import {
-	CHAT_GPT_API_KEY,
-	DISTORTIONS_NAMES,
-	DISTORTIONS_TYPE,
-} from '../../const';
+import { DISTORTIONS_NAMES, DISTORTIONS_TYPE } from '../../const';
 import {
 	addThought,
 	updateThought,
@@ -36,8 +32,16 @@ export default function ThoughtForm() {
 	);
 	const [originalDistortions, setOriginalDistortions] = useState<
 		(keyof DISTORTIONS_TYPE)[]
-	>([]);
+	>(currentThoughtObj?.distortions || []);
 	const [errorMsg, setErrorMsg] = useState('');
+
+	const uniqueDistortions = useMemo(() => {
+		return Array.from(
+			new Set(
+				originalDistortions.map((distortion) => DISTORTIONS_NAMES[distortion])
+			)
+		);
+	}, [originalDistortions]);
 
 	useEffect(() => {
 		setOriginal(currentThoughtObj?.original || '');
@@ -90,30 +94,14 @@ export default function ThoughtForm() {
 	);
 
 	const fireChatGPTAnalytics = async () => {
-		// const response = await axios.post(
-		// 	'https://api.openai.com/v1/completions',
-		// 	{
-		// 		prompt: `create a numbered list of titles of cognitive distortions can be found in this sentence: "${original}"`,
-		// 		model: 'text-curie-001',
-		// 		max_tokens: 1050,
-		// 		n: 1,
-		// 		stop: ['{}'],
-		// 	},
-		// 	{
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 			Authorization: `Bearer ${CHAT_GPT_API_KEY}`,
-		// 		},
-		// 	}
-		// );
+		console.log('Looking for distortions...');
 
 		const response = await axios.get('http://localhost:8000/distortions', {
 			params: { sentence: original },
 		});
 
-		// const resToUse = response.data.choices;
 		const resToUse = response.data[0].text;
-		// console.log(response.data[0].text);
+
 		const listOfDistortionsAsString = resToUse
 			.toLowerCase()
 			.replaceAll(' ', '')
@@ -121,14 +109,22 @@ export default function ThoughtForm() {
 
 		setOriginalDistortions([]);
 
+		const foundDistortions: (keyof DISTORTIONS_TYPE)[] = [];
 		for (let i = 0; i < keyPhrases.length; i++) {
 			if (listOfDistortionsAsString.includes(keyPhrases[i])) {
 				if (
-					!originalDistortions.includes(keyPhrases[i] as keyof DISTORTIONS_TYPE)
+					!foundDistortions.includes(keyPhrases[i] as keyof DISTORTIONS_TYPE)
 				) {
-					setOriginalDistortions((prevArr: any) => [...prevArr, keyPhrases[i]]);
+					foundDistortions.push(keyPhrases[i] as keyof DISTORTIONS_TYPE);
 				}
 			}
+		}
+
+		// Making sure we've found distortions, otherwise recall the function
+		if (foundDistortions.length >= 1) {
+			setOriginalDistortions(foundDistortions);
+		} else {
+			fireChatGPTAnalytics();
 		}
 	};
 
@@ -148,14 +144,14 @@ export default function ThoughtForm() {
 							value={original}
 							onChange={onOriginalInputChange}
 						/>
-						{originalDistortions && originalDistortions.length > 0 ? (
+						{uniqueDistortions && uniqueDistortions?.length > 0 ? (
 							<>
 								<div className="distortions-tags-container">
-									{originalDistortions.length > 0 &&
-										originalDistortions.map((distortion) => (
+									{uniqueDistortions?.length > 0 &&
+										uniqueDistortions.map((distortion) => (
 											<Pill
 												key={distortion}
-												label={DISTORTIONS_NAMES[distortion]}
+												label={distortion}
 												state="regular"
 											/>
 										))}

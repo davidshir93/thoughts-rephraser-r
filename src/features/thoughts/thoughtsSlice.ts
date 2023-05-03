@@ -78,6 +78,7 @@ export const handleError = (dispatch: any, error: any) => {
 };
 
 export const fetchThoughts = () => async (dispatch: any) => {
+	console.log('loading true now');
 	dispatch(setLoading(true));
 	try {
 		// const snapshot = await db.collection('Thoughts').get();
@@ -90,6 +91,8 @@ export const fetchThoughts = () => async (dispatch: any) => {
 	} catch (error) {
 		handleError(dispatch, error);
 	}
+	console.log('loading false now');
+
 	dispatch(setLoading(false));
 };
 
