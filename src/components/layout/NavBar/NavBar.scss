@@ -2,7 +2,7 @@
    position: fixed;
    z-index: 1;
    background-color: var(--text-color);
-   height: 4rem;
+   height: 4.33rem;
    width: 100vw;
    left: 0;
 
@@ -68,13 +68,14 @@
             }
 
             position: absolute;
-            top: 4rem;
+            top: 4.33rem;
             left: 0;
             gap: 2rem;
             flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;
-            background-color: var(--bg-color);
+            background-color: var(--text-color);
+
             padding: 1rem;
             padding-top: 2rem;
             width: 80%;
@@ -84,7 +85,7 @@
             .guest,
             .logged,
             a {
-               color: var(--text-color);
+               color: var(--bg-color);
                display: flex;
                flex-direction: column;
                align-items: flex-start;
