@@ -24,13 +24,15 @@ function App() {
 		<BrowserRouter>
 			<div className="App">
 				<NavBar />
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/learn" element={<Learn />} />
-					<Route path="/about" element={<About />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<SignUp />} />
-				</Routes>
+				<div className="content-container">
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/learn" element={<Learn />} />
+						<Route path="/about" element={<About />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/signup" element={<SignUp />} />
+					</Routes>
+				</div>
 			</div>
 		</BrowserRouter>
 	);

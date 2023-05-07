@@ -24,13 +24,15 @@
   text-align: center;
   color: var(--text-color);
   overflow-x: hidden !important;
-  margin: 0.66rem auto;
   max-width: 1040px;
-  padding: 1.33rem;
-  border-radius: 1.33rem;
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0;
+
+  .content-container {
+    margin-top: 5rem;
+    padding: 1rem;
+  }
 }
 
 h1 {
