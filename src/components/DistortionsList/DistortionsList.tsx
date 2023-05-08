@@ -1,9 +1,14 @@
 import DistortionCard from '../DistortionCard/DistortionCard';
 import './DistortionsList.scss';
-import { DISTORTIONS_NAMES_AND_DESCRIPTIONS } from '../../const';
+import {
+	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
+	DISTORTIONS_TYPE,
+} from '../../const';
 
 export default function DistortionsList() {
-	const names = Object.keys(DISTORTIONS_NAMES_AND_DESCRIPTIONS);
+	const names = Object.keys(
+		DISTORTIONS_NAMES_AND_DESCRIPTIONS
+	) as (keyof DISTORTIONS_TYPE)[];
 	return (
 		<div className="distortions-grid-container">
 			{names.length > 0 &&
