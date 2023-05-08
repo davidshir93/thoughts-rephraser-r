@@ -4,7 +4,10 @@ import {
 	deleteThought,
 	setCurrentThought,
 } from '../../features/thoughts/thoughtsSlice';
-import { DISTORTIONS_NAMES, TABS_THOGUHT_STATES } from '../../const';
+import {
+	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
+	TABS_THOGUHT_STATES,
+} from '../../const';
 import { IThought } from '../../interfaces';
 import Pill from '../design-library/Pill/Pill';
 import Tabs from '../design-library/Tabs/Tabs';
@@ -75,11 +78,15 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 						thought.distortions &&
 						thought.distortions.length > 0 &&
 						thought.distortions.map((distortion) => (
-							<Pill
-								key={distortion}
-								label={DISTORTIONS_NAMES[distortion]}
-								state="regular"
-							/>
+							<div key={distortion} className="pill-container">
+								<div className="description caption">
+									{DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].description}
+								</div>
+								<Pill
+									label={DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title}
+									state="regular"
+								/>
+							</div>
 						))}
 				</div>
 

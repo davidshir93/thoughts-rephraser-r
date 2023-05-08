@@ -6,7 +6,7 @@ export default function ThoughtsList() {
 	const thoughts = useAppSelector((state) => state.thoughts.thoughts);
 
 	return (
-		<div className="thoguhts-grid-container">
+		<div className="thoughts-grid-container">
 			{thoughts.length > 0 &&
 				thoughts.map((thoguht) => (
 					<ThoughtCard key={thoguht.id} thought={thoguht} />

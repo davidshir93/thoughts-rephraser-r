@@ -49,7 +49,7 @@ export default function NavBar() {
 					</i>
 				</div>
 				<Link to="/">
-					<h2>Thoughts Rephraser</h2>
+					<h2>Thoughts Challenger</h2>
 				</Link>
 				<div className={`right-side ${mobileMenuOpen && 'mobile-menu-open'}`}>
 					<NavLink onClick={handleHamburgerClick} to="/">

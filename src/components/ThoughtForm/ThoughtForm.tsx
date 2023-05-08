@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { DISTORTIONS_NAMES, DISTORTIONS_TYPE } from '../../const';
+import {
+	DISTORTIONS_NAMES_MAP,
+	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
+	DISTORTIONS_TYPE,
+} from '../../const';
 import {
 	addThought,
 	updateThought,
@@ -11,21 +15,19 @@ import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
 import axios from 'axios';
 
-const keyPhrases = Object.keys(DISTORTIONS_NAMES).map((keyName) =>
-	keyName.toLowerCase().replaceAll(' ', '').replaceAll('-', '')
-);
+const keyPhrases = Object.keys(DISTORTIONS_NAMES_MAP);
 
 export default function ThoughtForm() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector((state) => state.user.user);
 
 	// Handeling Edit Mode
-	const thoguhts = useAppSelector((state) => state).thoughts.thoughts;
+	const thoughts = useAppSelector((state) => state).thoughts.thoughts;
 	const currentThoughtId = useAppSelector(
 		(state) => state.thoughts.currentThoughtId
 	);
 	const currentThoughtObj = currentThoughtId
-		? thoguhts.find((thoguht) => thoguht.id === currentThoughtId)
+		? thoughts.find((thoguht) => thoguht.id === currentThoughtId)
 		: null;
 	const editMode = currentThoughtObj !== null;
 
@@ -43,7 +45,9 @@ export default function ThoughtForm() {
 	const uniqueDistortions = useMemo(() => {
 		return Array.from(
 			new Set(
-				originalDistortions.map((distortion) => DISTORTIONS_NAMES[distortion])
+				originalDistortions.map(
+					(distortion) => DISTORTIONS_NAMES_MAP[distortion]
+				)
 			)
 		);
 	}, [originalDistortions, editMode]);
@@ -81,7 +85,7 @@ export default function ThoughtForm() {
 				id: currentThoughtId || '',
 				original,
 				rephrased,
-				distortions: originalDistortions,
+				distortions: uniqueDistortions,
 				createdBy: user.uid || '',
 				createdAt: new Date().toISOString(),
 				firstName: user.displayName.split(' ')[0],
@@ -168,7 +172,9 @@ export default function ThoughtForm() {
 										uniqueDistortions.map((distortion) => (
 											<Pill
 												key={distortion}
-												label={distortion}
+												label={
+													DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title
+												}
 												state="regular"
 											/>
 										))}
