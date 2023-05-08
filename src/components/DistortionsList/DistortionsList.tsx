@@ -8,13 +8,17 @@ export default function DistortionsList() {
 		<div className="distortions-grid-container">
 			{names.length > 0 &&
 				names.map((name) => {
-					return (
-						<DistortionCard
-							key={name}
-							title={DISTORTIONS_NAMES_AND_DESCRIPTIONS[name].title}
-							description={DISTORTIONS_NAMES_AND_DESCRIPTIONS[name].description}
-						/>
-					);
+					if (DISTORTIONS_NAMES_AND_DESCRIPTIONS.hasOwnProperty(name)) {
+						return (
+							<DistortionCard
+								key={name}
+								title={DISTORTIONS_NAMES_AND_DESCRIPTIONS[name].title}
+								description={
+									DISTORTIONS_NAMES_AND_DESCRIPTIONS[name].description
+								}
+							/>
+						);
+					}
 				})}
 		</div>
 	);

@@ -35,19 +35,40 @@ export const DISTORTIONS_NAMES_MAP = {
 	shouldstatements: 'shouldstatements',
 	controlfallacies: 'controlfallacies',
 };
+// ALL
+// export type DISTORTIONS_TYPE = {
+// 	blackandwhitethinking: string;
+// 	catastrophizing: string;
+// 	catastrophization: string;
+// 	sensationalizing: string;
+// 	overgeneralization: string;
+// 	generalization: string;
+// 	overgeneralizing: string;
+// 	allornothingthinking: string;
+// 	polarizedthinking: string;
+// 	polarization: string;
+// 	mindreading: string;
+// 	personalization: string;
+// 	personalizing: string;
+// 	emotionalreasoning: string;
+// 	labeling: string;
+// 	negativefiltering: string;
+// 	fortunetelling: string;
+// 	jumpingtoconclusions: string;
+// 	rationalization: string;
+// 	mentalfiltering: string;
+// 	shouldstatements: string;
+// 	controlfallacies: string;
+// };
 
+// UNIQUE
 export type DISTORTIONS_TYPE = {
 	blackandwhitethinking: string;
 	catastrophizing: string;
 	sensationalizing: string;
-	overgeneralization: string;
 	generalization: string;
-	overgeneralizing: string;
 	allornothingthinking: string;
-	polarizedthinking: string;
-	polarization: string;
 	mindreading: string;
-	personalization: string;
 	personalizing: string;
 	emotionalreasoning: string;
 	labeling: string;

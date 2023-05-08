@@ -42,14 +42,14 @@ export default function ThoughtForm() {
 	const [errorMsg, setErrorMsg] = useState('');
 	const [distortionsLoading, setDistortionsLoading] = useState(false);
 
-	const uniqueDistortions = useMemo(() => {
+	const uniqueDistortions = useMemo((): (keyof DISTORTIONS_TYPE)[] => {
 		return Array.from(
 			new Set(
 				originalDistortions.map(
 					(distortion) => DISTORTIONS_NAMES_MAP[distortion]
 				)
 			)
-		);
+		) as (keyof DISTORTIONS_TYPE)[];
 	}, [originalDistortions, editMode]);
 
 	useEffect(() => {
