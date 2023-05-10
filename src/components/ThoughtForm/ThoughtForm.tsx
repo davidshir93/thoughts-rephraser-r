@@ -103,7 +103,7 @@ export default function ThoughtForm() {
 		}
 	}
 
-	const fireChatGPTAnalytics = async () => {
+	async function fireChatGPTAnalytics() {
 		console.log('Looking for distortions...');
 		setDistortionsLoading(true);
 		const response = await axios.get(
@@ -140,7 +140,7 @@ export default function ThoughtForm() {
 		} else {
 			fireChatGPTAnalytics();
 		}
-	};
+	}
 
 	const mainCtaText = useMemo(() => {
 		if (editMode) {
