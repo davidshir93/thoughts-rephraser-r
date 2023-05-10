@@ -103,56 +103,42 @@ export default function ThoughtForm() {
 		}
 	}
 
-	function fireChatGPTAnalytics() {
+	const fireChatGPTAnalytics = async () => {
 		console.log('Looking for distortions...');
 		setDistortionsLoading(true);
+		const response = await axios.get('http://localhost:8000/distortions', {
+			params: { sentence: original },
+		});
+		console.log(response.data);
 
-		// const response = await axios.get(
-		// 	'https://thoughts-rephraser-r.herokuapp.com/distortions',
-		// 	{
-		// 		params: { sentence: original },
-		// 	}
-		// );
+		const resToUse = response.data[0].text;
 
-		axios
-			.get('https://thoughts-rephraser-r.herokuapp.com/distortions', {
-				params: { sentence: original },
-			})
-			.then((response) => {
-				const resToUse = response.data[0].text;
+		const listOfDistortionsAsString = resToUse
+			.toLowerCase()
+			.replaceAll(' ', '')
+			.replaceAll('-', '');
 
-				const listOfDistortionsAsString = resToUse
-					.toLowerCase()
-					.replaceAll(' ', '')
-					.replaceAll('-', '');
+		setOriginalDistortions([]);
 
-				setOriginalDistortions([]);
-
-				const foundDistortions: (keyof DISTORTIONS_TYPE)[] = [];
-				for (let i = 0; i < keyPhrases.length; i++) {
-					if (listOfDistortionsAsString.includes(keyPhrases[i])) {
-						if (
-							!foundDistortions.includes(
-								keyPhrases[i] as keyof DISTORTIONS_TYPE
-							)
-						) {
-							foundDistortions.push(keyPhrases[i] as keyof DISTORTIONS_TYPE);
-						}
-					}
+		const foundDistortions: (keyof DISTORTIONS_TYPE)[] = [];
+		for (let i = 0; i < keyPhrases.length; i++) {
+			if (listOfDistortionsAsString.includes(keyPhrases[i])) {
+				if (
+					!foundDistortions.includes(keyPhrases[i] as keyof DISTORTIONS_TYPE)
+				) {
+					foundDistortions.push(keyPhrases[i] as keyof DISTORTIONS_TYPE);
 				}
+			}
+		}
 
-				// Making sure we've found some distortions, otherwise recall the function
-				if (foundDistortions.length >= 1) {
-					setOriginalDistortions(foundDistortions);
-					setDistortionsLoading(false);
-				} else {
-					fireChatGPTAnalytics();
-				}
-			})
-			.catch((err) => {
-				console.error(err.message);
-			});
-	}
+		// Making sure we've found some distortions, otherwise recall the function
+		if (foundDistortions.length >= 1) {
+			setOriginalDistortions(foundDistortions);
+			setDistortionsLoading(false);
+		} else {
+			fireChatGPTAnalytics();
+		}
+	};
 
 	const mainCtaText = useMemo(() => {
 		if (editMode) {
