@@ -106,9 +106,12 @@ export default function ThoughtForm() {
 	const fireChatGPTAnalytics = async () => {
 		console.log('Looking for distortions...');
 		setDistortionsLoading(true);
-		const response = await axios.get('http://localhost:8000/distortions', {
-			params: { sentence: original },
-		});
+		const response = await axios.get(
+			'https://thoughts-rephraser-r.herokuapp.com/distortions',
+			{
+				params: { sentence: original },
+			}
+		);
 
 		const resToUse = response.data[0].text;
 
