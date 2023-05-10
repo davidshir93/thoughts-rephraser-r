@@ -7,7 +7,7 @@
 		"dev": "vite",
 		"backend": "nodemon index.js",
 		"start": "node index.js",
-		"heroku-postbuild": "npm install && tsc && vite build",
+		"heroku-postbuild": "npm install && vite build",
 		"build": "node index.js",
 		"preview": "vite preview"
 	},
