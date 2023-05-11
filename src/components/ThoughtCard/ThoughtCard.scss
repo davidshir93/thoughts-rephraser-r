@@ -1,0 +1,98 @@
+.thought-card {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 1rem;
+   padding: 1.33rem;
+   padding-bottom: 3rem;
+   background-color: var(--secondary-color);
+   border-radius: 1rem;
+   transition: all 300ms ease;
+   height: 100%;
+   position: relative;
+   border: var(--text-color) 1px solid;
+
+   &.edit-mode {
+      pointer-events: none;
+
+      &::after {
+         width: 100%;
+         height: 100%;
+         content: "Thought is in Edit Mode";
+         z-index: 11;
+         animation: fadeIn 300ms ease forwards;
+         background-color: var(--bg-color);
+         position: absolute;
+         top: 0;
+         border-radius: 1rem;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+      }
+   }
+
+   .editing-icons-container {
+      opacity: 0;
+      position: absolute;
+      right: 0.66rem;
+      top: 0.66rem;
+      transition: opacity 300ms ease;
+      display: flex;
+      gap: 0.33rem;
+
+      .material-icons {
+         background: var(--bg-color);
+         border-radius: 1rem;
+         padding: 0.33rem;
+         font-size: 0.66rem;
+         cursor: pointer;
+         transition: all 300ms ease;
+
+         &:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+         }
+      }
+   }
+
+   &:hover {
+      .editing-icons-container {
+         opacity: 1;
+      }
+   }
+
+   .distortions-tags-container {
+      display: flex;
+      gap: 0.33rem;
+      flex-direction: revert;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .pill-container {
+         position: relative;
+
+         .description {
+            display: none;
+         }
+
+         &:hover .description {
+            display: block;
+            position: absolute;
+            z-index: 10;
+            background-color: var(--bg-color);
+            border-radius: 1rem;
+            top: 2rem;
+            left: 0;
+            padding: 1rem;
+            border: var(--text-color) 1px solid;
+            text-align: left;
+
+         }
+      }
+   }
+
+   .created-by {
+      position: absolute;
+      bottom: 1rem;
+   }
+}
