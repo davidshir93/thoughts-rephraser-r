@@ -16,19 +16,19 @@ import { dirname } from 'path';
 
 const __dirname = dirname(new URL(import.meta.url).pathname);
 
-if (
-	process.env.NODE_ENV === 'production' ||
-	process.env.NODE_ENV === 'staging'
-) {
-	app.use(express.static(path.join(__dirname, '/dist')));
-	app.get('*', (req, res) => {
-		res.sendFile(path.join(__dirname + '/dist/index.html'));
-	});
-} else {
-	app.get('/', (req, res) => {
-		res.json('hi');
-	});
-}
+// if (
+// 	process.env.NODE_ENV === 'production' ||
+// 	process.env.NODE_ENV === 'staging'
+// ) {
+// 	app.use(express.static(path.join(__dirname, '/dist')));
+// 	app.get('*', (req, res) => {
+// 		res.sendFile(path.join(__dirname + '/dist/index.html'));
+// 	});
+// } else {
+// 	app.get('/', (req, res) => {
+// 		res.json('hi');
+// 	});
+// }
 
 app.get('/distortions', async (req, res) => {
 	console.log(req.query.sentence);
