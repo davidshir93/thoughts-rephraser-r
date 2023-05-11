@@ -19,6 +19,7 @@
 		"firebase": "^9.17.1",
 		"framer-motion": "^9.0.2",
 		"node-sass": "^8.0.0",
+		"nodemon": "^2.0.22",
 		"openai": "^3.2.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
