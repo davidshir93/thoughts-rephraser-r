@@ -14,6 +14,7 @@ import Button from '../design-library/Button/Button';
 import Pill from '../design-library/Pill/Pill';
 import './ThoughtForm.scss';
 import axios from 'axios';
+import { setDistortion } from '../../features/distortion/distortionSlice';
 
 const keyPhrases = Object.keys(DISTORTIONS_NAMES_MAP);
 
@@ -153,6 +154,11 @@ export default function ThoughtForm() {
 		}
 	}, [editMode, user]);
 
+	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
+		console.log(distortion);
+		dispatch(setDistortion(distortion));
+	}
+
 	return (
 		<>
 			<form action="handleSumbit" className="new-thoguht-form">
@@ -180,6 +186,7 @@ export default function ThoughtForm() {
 													DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title
 												}
 												state="regular"
+												onClick={() => handleDistortionClick(distortion)}
 											/>
 										))}
 								</div>

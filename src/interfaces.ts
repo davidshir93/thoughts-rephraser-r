@@ -18,6 +18,10 @@ export interface IThoughtsState {
 	currentThoughtId: string;
 }
 
+export interface IDistortionState {
+	distortionName: keyof DISTORTIONS_TYPE | '';
+}
+
 export interface IUserState {
 	user: IUser | null;
 	loading: boolean;

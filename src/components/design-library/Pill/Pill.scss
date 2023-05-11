@@ -4,9 +4,10 @@
    width: fit-content;
    background-color: var(--text-color);
    color: var(--bg-color);
-
    padding: 4px 16px;
    border: 1px solid var(--bg-color);
+   cursor: pointer;
+   transition: all 100ms ease-in-out;
 }
 
 .pill--hover,

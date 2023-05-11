@@ -6,12 +6,14 @@ import {
 } from '../../features/thoughts/thoughtsSlice';
 import {
 	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
+	DISTORTIONS_TYPE,
 	TABS_THOGUHT_STATES,
 } from '../../const';
 import { IThought } from '../../interfaces';
 import Pill from '../design-library/Pill/Pill';
 import Tabs from '../design-library/Tabs/Tabs';
 import './ThoughtCard.scss';
+import { setDistortion } from '../../features/distortion/distortionSlice';
 
 type ThoughtCardProps = {
 	thought: IThought;
@@ -57,6 +59,11 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 		tabContent = <p className="bold">{thought.rephrased}</p>;
 	}
 
+	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
+		console.log(distortion);
+		dispatch(setDistortion(distortion));
+	}
+
 	return (
 		<>
 			<div className={`thought-card ${cardInEditMode && 'edit-mode'}`}>
@@ -79,12 +86,10 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 						thought.distortions.length > 0 &&
 						thought.distortions.map((distortion) => (
 							<div key={distortion} className="pill-container">
-								<div className="description caption">
-									{DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].description}
-								</div>
 								<Pill
 									label={DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title}
 									state="regular"
+									onClick={() => handleDistortionClick(distortion)}
 								/>
 							</div>
 						))}

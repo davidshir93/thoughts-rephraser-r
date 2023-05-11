@@ -33,6 +33,7 @@
   .content-container {
     margin-top: 5.33rem;
     padding: 1rem;
+    position: relative;
   }
 }
 
@@ -185,9 +186,9 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 1440px;
+  // max-width: 1440px;
   min-height: calc(100vh - 12rem);
-  width: calc(100vw - 2rem);
+  // width: calc(100vw - 2rem);
 
   @keyframes spin {
     to {
