@@ -7,7 +7,6 @@
 		"dev": "vite",
 		"backend": "nodemon index.js",
 		"start": "node index.js && tsc && vite build",
-		"build": "tsc && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
