@@ -15,7 +15,7 @@ export default function Button({
 }: ButtonProps) {
 	return (
 		<button
-			className={`tr-button ${type} ${disabled && 'disabled'}`}
+			className={`tr-button ${type} ${disabled ? 'disabled' : ''}`}
 			disabled={disabled}
 			onClick={onClick}
 			type={type === 'sumbit' ? 'submit' : 'button'}>

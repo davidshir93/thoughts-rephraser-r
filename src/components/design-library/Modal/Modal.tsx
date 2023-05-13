@@ -21,7 +21,7 @@ export default function Modal({
 				<p>{content}</p>
 				<Button
 					label={closeBtnText}
-					type="primary"
+					type="secondary"
 					onClick={onBtnClick}></Button>
 			</div>
 		</div>

@@ -95,7 +95,7 @@ export const DISTORTIONS_NAMES_AND_DESCRIPTIONS = {
 	sensationalizing: {
 		title: 'Sensationalizing',
 		description:
-			'the tendency to exaggerate or focus on the most extreme aspects of a situation, often leading to inaccurate or distorted perceptions of reality.',
+			'The tendency to exaggerate or focus on the most extreme aspects of a situation, often leading to inaccurate or distorted perceptions of reality.',
 	},
 	generalization: {
 		title: 'Generalization',
@@ -105,7 +105,7 @@ export const DISTORTIONS_NAMES_AND_DESCRIPTIONS = {
 	allornothingthinking: {
 		title: 'All-or-Nothing Thinking',
 		description:
-			'a cognitive distortion in which individuals view situations or people as either completely good or completely bad, with no middle ground or gray areas.',
+			'A cognitive distortion in which individuals view situations or people as either completely good or completely bad, with no middle ground or gray areas.',
 	},
 	mindreading: {
 		title: 'Mind Reading',
@@ -120,7 +120,7 @@ export const DISTORTIONS_NAMES_AND_DESCRIPTIONS = {
 	emotionalreasoning: {
 		title: 'Emotional Reasoning',
 		description:
-			'This may be one of the most surprising distortions to many readers, and it is also one of the most important to identify and address. The logic behind this distortion is not surprising to most people; rather, it is the realization that virtually all of us have bought into this distortion at one time or another. Emotional reasoning refers to the acceptance of one’s emotions as fact. It can be described as “I feel it, therefore it must be true.” Just because we feel something doesn’t mean it is true; for example, we may become jealous and think our partner has feelings for someone else, but that doesn’t make it true. Of course, we know it isn’t reasonable to take our feelings as fact, but it is a common distortion nonetheless.',
+			'Emotional reasoning refers to the acceptance of one’s emotions as fact. It can be described as “I feel it, therefore it must be true.” Just because we feel something doesn’t mean it is true; for example, we may become jealous and think our partner has feelings for someone else, but that doesn’t make it true. Of course, we know it isn’t reasonable to take our feelings as fact, but it is a common distortion nonetheless.',
 	},
 	labeling: {
 		title: 'Labeling',
