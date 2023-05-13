@@ -163,3 +163,24 @@ export const DISTORTIONS_NAMES_AND_DESCRIPTIONS = {
 			'A control fallacy manifests as one of two beliefs: (1) that we have no control over our lives and are helpless victims of fate, or (2) that we are in complete control of ourselves and our surroundings, giving us responsibility for the feelings of those around us. Both beliefs are damaging, and both are equally inaccurate. No one is in complete control of what happens to them, and no one has absolutely no control over their situation. Even in extreme situations where an individual seemingly has no choice in what they do or where they go, they still have a certain amount of control over how they approach their situation mentally.',
 	},
 };
+
+// Animation Parameters (Framer Motion)
+export const itemAnimationParams = {
+	hidden: { opacity: 0, scale: 0.4 },
+	show: { opacity: 1, scale: 1 },
+};
+
+export const modalAnimationParams = {
+	hidden: { opacity: 0, scale: 0.4, translateX: '-50%', translateY: '-50%' },
+	show: { opacity: 1, scale: 1, translateX: '-50%', translateY: '-50%' },
+};
+
+export const containerAnimationParams = {
+	hidden: { opacity: 0 },
+	show: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.08,
+		},
+	},
+};

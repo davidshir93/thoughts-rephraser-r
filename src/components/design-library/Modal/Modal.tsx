@@ -1,5 +1,7 @@
+import { motion } from 'framer-motion';
 import Button from '../Button/Button';
 import './Modal.scss';
+import { itemAnimationParams, modalAnimationParams } from '../../../const';
 
 type ModalProps = {
 	title: string;
@@ -16,14 +18,26 @@ export default function Modal({
 }: ModalProps) {
 	return (
 		<div className="tr-modal-container">
-			<div className="tr-modal">
+			<motion.div
+				className="tr-modal"
+				variants={modalAnimationParams}
+				initial="hidden"
+				animate="show">
 				<h2>{title}</h2>
 				<p>{content}</p>
 				<Button
 					label={closeBtnText}
 					type="secondary"
 					onClick={onBtnClick}></Button>
-			</div>
+			</motion.div>
+			{/* <div className="tr-modal">
+				<h2>{title}</h2>
+				<p>{content}</p>
+				<Button
+					label={closeBtnText}
+					type="secondary"
+					onClick={onBtnClick}></Button>
+			</div> */}
 		</div>
 	);
 }
