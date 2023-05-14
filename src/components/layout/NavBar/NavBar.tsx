@@ -81,7 +81,7 @@ export default function NavBar() {
 								<Button
 									onClick={handleHamburgerClick}
 									label="Signup"
-									type="primary"
+									type="secondary"
 								/>
 							</Link>
 						</div>

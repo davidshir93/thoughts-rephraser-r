@@ -57,6 +57,7 @@ export default function ThoughtForm() {
 		setOriginal(currentThoughtObj?.original || '');
 		setRephrased(currentThoughtObj?.rephrased || '');
 		setOriginalDistortions(currentThoughtObj?.distortions || []);
+		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	}, [currentThoughtId]);
 
 	function onOriginalInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {

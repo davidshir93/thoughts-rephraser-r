@@ -44,7 +44,7 @@ export default function SignUp() {
 
 	return (
 		<>
-			<h2>SignUp</h2>
+			<h2>Sign Up</h2>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="firstName">First Name</label>
 				<input type="text" id="firstName" ref={firstName} />

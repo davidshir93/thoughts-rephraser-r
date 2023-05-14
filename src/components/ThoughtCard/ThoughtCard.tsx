@@ -60,7 +60,6 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	}
 
 	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
-		console.log(distortion);
 		dispatch(setDistortion(distortion));
 	}
 

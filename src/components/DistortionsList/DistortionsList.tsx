@@ -3,28 +3,35 @@ import './DistortionsList.scss';
 import {
 	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
 	DISTORTIONS_TYPE,
+	containerAnimationParams,
+	itemAnimationParams,
 } from '../../const';
+import { motion } from 'framer-motion';
 
 export default function DistortionsList() {
 	const names = Object.keys(
 		DISTORTIONS_NAMES_AND_DESCRIPTIONS
 	) as (keyof DISTORTIONS_TYPE)[];
+
 	return (
-		<div className="distortions-grid-container">
-			{names.length > 0 &&
-				names.map((name) => {
-					if (DISTORTIONS_NAMES_AND_DESCRIPTIONS.hasOwnProperty(name)) {
-						return (
+		<motion.div
+			className="distortions-grid-container"
+			variants={containerAnimationParams}
+			initial="hidden"
+			animate="show">
+			{names.map((name) => {
+				if (DISTORTIONS_NAMES_AND_DESCRIPTIONS.hasOwnProperty(name)) {
+					return (
+						<motion.div key={name} variants={itemAnimationParams}>
 							<DistortionCard
 								key={name}
+								name={name}
 								title={DISTORTIONS_NAMES_AND_DESCRIPTIONS[name].title}
-								description={
-									DISTORTIONS_NAMES_AND_DESCRIPTIONS[name].description
-								}
 							/>
-						);
-					}
-				})}
-		</div>
+						</motion.div>
+					);
+				}
+			})}
+		</motion.div>
 	);
 }

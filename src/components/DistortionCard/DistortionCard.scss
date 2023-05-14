@@ -4,7 +4,6 @@
    align-items: center;
    gap: 1rem;
    padding: 1.33rem;
-   padding-bottom: 3rem;
    background-color: var(--secondary-color);
    border-radius: 1rem;
    transition: all 300ms ease;
@@ -12,4 +11,9 @@
    position: relative;
    border: var(--text-color) 1px solid;
    justify-content: center;
+
+   &:hover {
+      color: var(--bg-color);
+      background-color: var(--text-color);
+   }
 }
