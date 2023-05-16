@@ -10,11 +10,13 @@ import {
 	updateThought,
 	setCurrentThought,
 } from '../../features/thoughts/thoughtsSlice';
+import { setDistortion } from '../../features/distortion/distortionSlice';
+
 import Button from '../design-library/Button/Button';
 import Pill from '../design-library/Pill/Pill';
-import './ThoughtForm.scss';
 import axios from 'axios';
-import { setDistortion } from '../../features/distortion/distortionSlice';
+
+import './ThoughtForm.scss';
 
 const keyPhrases = Object.keys(DISTORTIONS_NAMES_MAP);
 
@@ -42,16 +44,6 @@ export default function ThoughtForm() {
 	>(currentThoughtObj?.distortions || []);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [distortionsLoading, setDistortionsLoading] = useState(false);
-
-	const uniqueDistortions = useMemo((): (keyof DISTORTIONS_TYPE)[] => {
-		return Array.from(
-			new Set(
-				originalDistortions.map(
-					(distortion) => DISTORTIONS_NAMES_MAP[distortion]
-				)
-			)
-		) as (keyof DISTORTIONS_TYPE)[];
-	}, [originalDistortions, editMode]);
 
 	useEffect(() => {
 		setOriginal(currentThoughtObj?.original || '');
@@ -87,7 +79,7 @@ export default function ThoughtForm() {
 				id: currentThoughtId || '',
 				original,
 				rephrased,
-				distortions: uniqueDistortions,
+				distortions: originalDistortions,
 				createdBy: user.uid || '',
 				createdAt: new Date().toISOString(),
 				firstName: user.displayName.split(' ')[0],
@@ -129,12 +121,22 @@ export default function ThoughtForm() {
 		for (let i = 0; i < keyPhrases.length; i++) {
 			if (listOfDistortionsAsString.includes(keyPhrases[i])) {
 				if (
-					!foundDistortions.includes(keyPhrases[i] as keyof DISTORTIONS_TYPE)
+					!foundDistortions.includes(
+						DISTORTIONS_NAMES_MAP[
+							keyPhrases[i] as keyof DISTORTIONS_TYPE
+						] as keyof DISTORTIONS_TYPE
+					)
 				) {
-					foundDistortions.push(keyPhrases[i] as keyof DISTORTIONS_TYPE);
+					foundDistortions.push(
+						DISTORTIONS_NAMES_MAP[
+							keyPhrases[i] as keyof DISTORTIONS_TYPE
+						] as keyof DISTORTIONS_TYPE
+					);
 				}
 			}
 		}
+
+		console.log(foundDistortions);
 
 		// Making sure we've found some distortions, otherwise recall the function
 		if (foundDistortions.length >= 1) {
@@ -156,7 +158,6 @@ export default function ThoughtForm() {
 	}, [editMode, user]);
 
 	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
-		console.log(distortion);
 		dispatch(setDistortion(distortion));
 	}
 
@@ -176,20 +177,20 @@ export default function ThoughtForm() {
 							value={original}
 							onChange={onOriginalInputChange}
 						/>
-						{uniqueDistortions && uniqueDistortions?.length > 0 ? (
+						{/* TODO: Add Error message */}
+						{originalDistortions?.length > 0 ? (
 							<>
 								<div className="distortions-tags-container">
-									{uniqueDistortions?.length > 0 &&
-										uniqueDistortions.map((distortion) => (
-											<Pill
-												key={distortion}
-												label={
-													DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title
-												}
-												state="regular"
-												onClick={() => handleDistortionClick(distortion)}
-											/>
-										))}
+									{originalDistortions.map((distortion) => (
+										<Pill
+											key={distortion}
+											label={
+												DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title
+											}
+											state="regular"
+											onClick={() => handleDistortionClick(distortion)}
+										/>
+									))}
 								</div>
 
 								<div className="left-side rephrased">
