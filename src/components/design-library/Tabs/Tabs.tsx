@@ -8,8 +8,7 @@ type TabsProps = {
 type Tab = {
 	name: string;
 	displayName: string;
-	// TODO: Check why I get type error when I pass 'active' | 'inactive' if I'm not using | string
-	state: 'active' | 'inactive' | string;
+	state: 'active' | 'inactive';
 };
 
 export default function Tabs({ tabs, onTabClick }: TabsProps) {

@@ -1,5 +1,4 @@
 import DistortionCard from '../DistortionCard/DistortionCard';
-import './DistortionsList.scss';
 import {
 	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
 	DISTORTIONS_TYPE,
@@ -7,6 +6,7 @@ import {
 	itemAnimationParams,
 } from '../../const';
 import { motion } from 'framer-motion';
+import './DistortionsList.scss';
 
 export default function DistortionsList() {
 	const names = Object.keys(

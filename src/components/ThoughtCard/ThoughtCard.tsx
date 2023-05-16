@@ -12,8 +12,8 @@ import {
 import { IThought } from '../../interfaces';
 import Pill from '../design-library/Pill/Pill';
 import Tabs from '../design-library/Tabs/Tabs';
-import './ThoughtCard.scss';
 import { setDistortion } from '../../features/distortion/distortionSlice';
+import './ThoughtCard.scss';
 
 type ThoughtCardProps = {
 	thought: IThought;
@@ -27,7 +27,7 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	const user = useAppSelector((state) => state.user.user);
 	const editableCard = user ? thought.createdBy === user.uid : false;
 	const [tabs, setTabs] = useState(TABS_THOGUHT_STATES);
-	const [selectedTab, setSelectedTab] = useState('original');
+	const [selectedTab, setSelectedTab] = useState(TABS_THOGUHT_STATES[0].name);
 
 	const dispatch = useAppDispatch();
 
@@ -53,10 +53,10 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	}
 
 	let tabContent;
-	if (selectedTab === 'original') {
-		tabContent = <p className="bold">{thought.original}</p>;
-	} else if (selectedTab === 'rephrased') {
-		tabContent = <p className="bold">{thought.rephrased}</p>;
+	if (selectedTab === TABS_THOGUHT_STATES[0].name) {
+		tabContent = thought.original;
+	} else if (selectedTab === TABS_THOGUHT_STATES[1].name) {
+		tabContent = thought.rephrased;
 	}
 
 	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
@@ -77,12 +77,10 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 					</div>
 				)}
 				<Tabs tabs={tabs} onTabClick={onTabClick} />
-				{tabContent}
+				<p className="bold">{tabContent}</p>
 
 				<div className="distortions-tags-container">
-					{thought &&
-						thought.distortions &&
-						thought.distortions.length > 0 &&
+					{thought?.distortions?.length > 0 &&
 						thought.distortions.map((distortion) => (
 							<div key={distortion} className="pill-container">
 								<Pill

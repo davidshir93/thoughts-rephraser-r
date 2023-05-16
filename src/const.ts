@@ -3,13 +3,19 @@ export const TABS_THOGUHT_STATES = [
 		name: 'original',
 		displayName: 'Original',
 		state: 'active',
-	},
+	} as TABS_THOGUHT_STATES_TYPE,
 	{
 		name: 'rephrased',
 		displayName: 'Rephrased',
 		state: 'inactive',
-	},
+	} as TABS_THOGUHT_STATES_TYPE,
 ];
+
+export type TABS_THOGUHT_STATES_TYPE = {
+	name: string;
+	displayName: string;
+	state: 'active' | 'inactive';
+};
 
 export const DISTORTIONS_NAMES_MAP = {
 	blackandwhitethinking: 'blackandwhitethinking',

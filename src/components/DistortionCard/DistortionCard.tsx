@@ -1,7 +1,7 @@
-import './DistortionCard.scss';
 import { useAppDispatch } from '../../app/hooks';
 import { setDistortion } from '../../features/distortion/distortionSlice';
 import { DISTORTIONS_TYPE } from '../../const';
+import './DistortionCard.scss';
 
 type DistortionCardProps = {
 	name: keyof DISTORTIONS_TYPE;
