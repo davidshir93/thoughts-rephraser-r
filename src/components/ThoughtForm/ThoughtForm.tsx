@@ -5,6 +5,7 @@ import {
 	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
 	DISTORTIONS_TYPE,
 	itemAnimationParams,
+	containerAnimationParams,
 } from '../../const';
 import {
 	addThought,
@@ -21,6 +22,7 @@ import axios from 'axios';
 import './ThoughtForm.scss';
 
 const keyPhrases = Object.keys(DISTORTIONS_NAMES_MAP);
+const initialErrorObj = { original: '', rephrased: '' };
 
 export default function ThoughtForm() {
 	const dispatch = useAppDispatch();
@@ -44,7 +46,9 @@ export default function ThoughtForm() {
 	const [originalDistortions, setOriginalDistortions] = useState<
 		(keyof DISTORTIONS_TYPE)[]
 	>(currentThoughtObj?.distortions || []);
-	const [errorMsg, setErrorMsg] = useState('');
+	const [errorsObj, setErrorObj] = useState(() => {
+		return initialErrorObj;
+	});
 	const [distortionsLoading, setDistortionsLoading] = useState(false);
 
 	useEffect(() => {
@@ -62,8 +66,6 @@ export default function ThoughtForm() {
 		setRephrased(e.target.value);
 	}
 
-	const formIsValid = original !== '' && rephrased !== '';
-
 	const clearForm = () => {
 		if (editMode) {
 			dispatch(setCurrentThought(''));
@@ -71,83 +73,111 @@ export default function ThoughtForm() {
 		setOriginal('');
 		setRephrased('');
 		setOriginalDistortions([]);
+		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	};
 
 	function handleSumbit() {
-		console.log('please sumbit form form is valid?', formIsValid);
-		if (user?.uid && formIsValid) {
-			setErrorMsg('');
-			const payload = {
-				id: currentThoughtId || '',
-				original,
-				rephrased,
-				distortions: originalDistortions,
-				createdBy: user.uid || '',
-				createdAt: new Date().toISOString(),
-				firstName: user.displayName.split(' ')[0],
-				lastName: user.displayName.split(' ')[1],
-			};
-			if (editMode) {
-				dispatch(updateThought(payload));
-			} else {
-				dispatch(addThought(payload));
-				dispatch(setCurrentThought(''));
-			}
-			clearForm();
+		if (rephrased.split(' ').length < 5) {
+			setErrorObj((prev) => {
+				return { ...prev, rephrased: 'Please write at least 5 words' };
+			});
 		} else {
-			setErrorMsg('Please check the form');
+			if (user?.uid) {
+				setErrorObj(initialErrorObj);
+				const payload = {
+					id: currentThoughtId || '',
+					original,
+					rephrased,
+					distortions: originalDistortions,
+					createdBy: user.uid || '',
+					createdAt: new Date().toISOString(),
+					firstName: user.displayName.split(' ')[0],
+					lastName: user.displayName.split(' ')[1],
+				};
+				if (editMode) {
+					dispatch(updateThought(payload));
+				} else {
+					dispatch(addThought(payload));
+					dispatch(setCurrentThought(''));
+				}
+				clearForm();
+			}
 		}
 	}
 
-	const fireChatGPTAnalytics = async () => {
-		console.log('Looking for distortions...');
-		setDistortionsLoading(true);
-		const response = await axios.get(
-			'https://thoughts-server.herokuapp.com/distortions',
-			{
-				params: { sentence: original },
+	const fireChatGPTAnalytics = () => {
+		let attempts = 0;
+		return async function () {
+			if (original.split(' ').length < 5) {
+				setErrorObj((prev) => {
+					return { ...prev, original: 'Please write at least 5 words' };
+				});
+				return;
+			} else {
+				setErrorObj(initialErrorObj);
 			}
-		);
-		console.log(response.data);
+			attempts++;
+			if (attempts > 3) {
+				setErrorObj((prev) => {
+					return {
+						...prev,
+						original: 'Please try again, or try another sentence',
+					};
+				});
+				setDistortionsLoading(false);
+				return;
+			}
+			console.log('Looking for distortions...');
+			setDistortionsLoading(true);
+			const response = await axios.get(
+				'https://thoughts-server.herokuapp.com/distortions',
+				{
+					params: { sentence: original },
+				}
+			);
+			console.log(response.data);
 
-		const resToUse = response.data[0].text;
+			const resToUse = response.data[0].text;
 
-		const listOfDistortionsAsString = resToUse
-			.toLowerCase()
-			.replaceAll(' ', '')
-			.replaceAll('-', '');
+			const listOfDistortionsAsString = resToUse
+				.toLowerCase()
+				.replaceAll(' ', '')
+				.replaceAll('-', '');
 
-		setOriginalDistortions([]);
+			setOriginalDistortions([]);
 
-		const foundDistortions: (keyof DISTORTIONS_TYPE)[] = [];
-		for (let i = 0; i < keyPhrases.length; i++) {
-			if (listOfDistortionsAsString.includes(keyPhrases[i])) {
-				if (
-					!foundDistortions.includes(
-						DISTORTIONS_NAMES_MAP[
-							keyPhrases[i] as keyof DISTORTIONS_TYPE
-						] as keyof DISTORTIONS_TYPE
-					)
-				) {
-					foundDistortions.push(
-						DISTORTIONS_NAMES_MAP[
-							keyPhrases[i] as keyof DISTORTIONS_TYPE
-						] as keyof DISTORTIONS_TYPE
-					);
+			const foundDistortions: (keyof DISTORTIONS_TYPE)[] = [];
+			for (let i = 0; i < keyPhrases.length; i++) {
+				if (listOfDistortionsAsString.includes(keyPhrases[i])) {
+					if (
+						!foundDistortions.includes(
+							DISTORTIONS_NAMES_MAP[
+								keyPhrases[i] as keyof DISTORTIONS_TYPE
+							] as keyof DISTORTIONS_TYPE
+						)
+					) {
+						foundDistortions.push(
+							DISTORTIONS_NAMES_MAP[
+								keyPhrases[i] as keyof DISTORTIONS_TYPE
+							] as keyof DISTORTIONS_TYPE
+						);
+					}
 				}
 			}
-		}
 
-		console.log(foundDistortions);
+			console.log(foundDistortions);
 
-		// Making sure we've found some distortions, otherwise recall the function
-		if (foundDistortions.length >= 1) {
-			setOriginalDistortions(foundDistortions);
-			setDistortionsLoading(false);
-		} else {
-			fireChatGPTAnalytics();
-		}
+			// Making sure we've found some distortions, otherwise recall the function
+			if (foundDistortions.length >= 1) {
+				setOriginalDistortions(foundDistortions);
+				setDistortionsLoading(false);
+			} else {
+				safeFireChatGPTAnalytics();
+			}
+		};
 	};
+
+	const safeFireChatGPTAnalytics = fireChatGPTAnalytics();
 
 	const mainCtaText = useMemo(() => {
 		if (editMode) {
@@ -178,22 +208,31 @@ export default function ThoughtForm() {
 							rows={5}
 							value={original}
 							onChange={onOriginalInputChange}
+							disabled={originalDistortions?.length > 0}
 						/>
-						{/* TODO: Add Error message */}
+						{errorsObj.original && (
+							<div className="error">{errorsObj.original}</div>
+						)}
 						{originalDistortions?.length > 0 ? (
 							<>
-								<div className="distortions-tags-container">
+								<motion.div
+									className="distortions-tags-container"
+									variants={containerAnimationParams}
+									initial="hidden"
+									animate="show">
 									{originalDistortions.map((distortion) => (
-										<Pill
-											key={distortion}
-											label={
-												DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title
-											}
-											state="regular"
-											onClick={() => handleDistortionClick(distortion)}
-										/>
+										<motion.div variants={itemAnimationParams}>
+											<Pill
+												key={distortion}
+												label={
+													DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title
+												}
+												state="regular"
+												onClick={() => handleDistortionClick(distortion)}
+											/>
+										</motion.div>
 									))}
-								</div>
+								</motion.div>
 
 								<div className="left-side rephrased">
 									<p className="bold">Rephrased</p>
@@ -208,13 +247,13 @@ export default function ThoughtForm() {
 										value={rephrased}
 										onChange={onRephrasedInputChange}
 									/>
+									{errorsObj.rephrased && (
+										<div className="error">{errorsObj.rephrased}</div>
+									)}
 								</div>
 
 								<div className="bottom">
 									<div className="right-side">
-										{errorMsg && (
-											<div className="error caption">{errorMsg}</div>
-										)}
 										<Button
 											label={editMode ? 'Cancel' : 'Restart'}
 											type="secondary"
@@ -236,7 +275,7 @@ export default function ThoughtForm() {
 										? 'Loading...'
 										: 'Find Cognitive Distortions'
 								}
-								onClick={fireChatGPTAnalytics}
+								onClick={safeFireChatGPTAnalytics}
 								disabled={distortionsLoading}
 								type="primary"
 							/>
