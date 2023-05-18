@@ -1,2 +1,2 @@
 # thoughts-rephraser-r
-A web application allowing users to challenge their thoughts in order to clean up their cognitive distortions, and get some mental clarity.
+Thoughts Challenger is a web application that provides users with a powerful tool to challenge their thoughts, identify cognitive distortions, and gain mental clarity.
