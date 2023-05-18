@@ -4,6 +4,7 @@ import {
 	DISTORTIONS_NAMES_MAP,
 	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
 	DISTORTIONS_TYPE,
+	itemAnimationParams,
 } from '../../const';
 import {
 	addThought,
@@ -11,6 +12,7 @@ import {
 	setCurrentThought,
 } from '../../features/thoughts/thoughtsSlice';
 import { setDistortion } from '../../features/distortion/distortionSlice';
+import { motion } from 'framer-motion';
 
 import Button from '../design-library/Button/Button';
 import Pill from '../design-library/Pill/Pill';
@@ -162,7 +164,7 @@ export default function ThoughtForm() {
 	}
 
 	return (
-		<>
+		<motion.div variants={itemAnimationParams} initial="hidden" animate="show">
 			<form action="handleSumbit" className="new-thoguht-form">
 				<div className="inputs-container">
 					<div className="right-side original">
@@ -242,6 +244,6 @@ export default function ThoughtForm() {
 					</div>
 				</div>
 			</form>
-		</>
+		</motion.div>
 	);
 }

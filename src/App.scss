@@ -72,6 +72,10 @@ p,
   animation: nudge 500ms ease-in-out forwards;
 }
 
+.left-aligned {
+  text-align: left;
+}
+
 form {
   display: flex;
   flex-direction: column;

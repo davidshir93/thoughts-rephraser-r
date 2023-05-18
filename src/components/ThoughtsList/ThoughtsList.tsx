@@ -10,6 +10,12 @@ export default function ThoughtsList() {
 
 	return (
 		<>
+			<motion.div
+				variants={itemAnimationParams}
+				initial="hidden"
+				animate="show">
+				<h2 className="subtitle">All Thoughts</h2>
+			</motion.div>
 			{thoughts?.length > 0 && (
 				<motion.div
 					className="thoughts-grid-container"

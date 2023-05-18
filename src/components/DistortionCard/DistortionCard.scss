@@ -11,6 +11,7 @@
    position: relative;
    border: var(--text-color) 1px solid;
    justify-content: center;
+   cursor: pointer;
 
    &:hover {
       color: var(--bg-color);
