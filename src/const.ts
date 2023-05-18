@@ -136,7 +136,7 @@ export const DISTORTIONS_NAMES_AND_DESCRIPTIONS = {
 	negativefiltering: {
 		title: 'Negative filtering',
 		description:
-			'involves selectively focusing on negative aspects of a situation while ignoring positive aspects, leading to a distorted perception of reality.',
+			'Negative filtering involves selectively focusing on negative aspects of a situation while ignoring positive aspects, leading to a distorted perception of reality.',
 	},
 	fortunetelling: {
 		title: 'Fortune-telling',
@@ -146,12 +146,12 @@ export const DISTORTIONS_NAMES_AND_DESCRIPTIONS = {
 	jumpingtoconclusions: {
 		title: 'Jumping to Conclusions',
 		description:
-			'a cognitive distortion in which individuals make assumptions or draw conclusions about a situation without sufficient evidence or information, often leading to misunderstandings and incorrect judgments.',
+			'A cognitive distortion in which individuals make assumptions or draw conclusions about a situation without sufficient evidence or information, often leading to misunderstandings and incorrect judgments.',
 	},
 	rationalization: {
 		title: 'Rationalization',
 		description:
-			'creating justifications or excuses to explain away or minimize behavior or situations that are actually problematic or harmful.',
+			'Rationalization is creating justifications or excuses to explain away or minimize behavior or situations that are actually problematic or harmful.',
 	},
 	mentalfiltering: {
 		title: 'Mental Filtering',
