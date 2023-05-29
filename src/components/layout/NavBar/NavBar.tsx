@@ -11,9 +11,16 @@ import { login, logout } from '../../../features/user/userSlice';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../firebase';
 
+const navLinks = [
+	{ path: '/', title: 'Home' },
+	{ path: '/learn', title: 'Learn' },
+	{ path: '/about', title: 'About' },
+];
+
 export default function NavBar() {
 	const user = useAppSelector((state) => state.user.user);
 	const dispatch = useAppDispatch();
+	const isLoading = useAppSelector((state) => state.thoughts.isLoading);
 
 	// check at page load if a user is authenticated
 	useEffect(() => {
@@ -51,42 +58,40 @@ export default function NavBar() {
 				<Link to="/">
 					<h2>Thoughts Challenger</h2>
 				</Link>
-				<div className={`right-side ${mobileMenuOpen && 'mobile-menu-open'}`}>
-					<NavLink onClick={handleHamburgerClick} to="/">
-						Home
-					</NavLink>
-					<NavLink onClick={handleHamburgerClick} to="/learn">
-						Learn
-					</NavLink>
-					<NavLink onClick={handleHamburgerClick} to="/about">
-						About
-					</NavLink>
-					{user?.uid ? (
-						<div className="logged">
-							<InitialsCircle
-								firstName={user.displayName?.split(' ')[0] || 'Hello'}
-								lastName={user.displayName?.split(' ')[1] || 'World'}
-							/>
-						</div>
-					) : (
-						<div className="guest">
-							<Link to="/login">
-								<Button
-									onClick={handleHamburgerClick}
-									label="Login"
-									type="secondary"
+				{!isLoading && (
+					<div className={`right-side ${mobileMenuOpen && 'mobile-menu-open'}`}>
+						{navLinks.map((link) => (
+							<NavLink onClick={handleHamburgerClick} to={link.path}>
+								{link.title}
+							</NavLink>
+						))}
+						{user?.uid ? (
+							<div className="logged">
+								<InitialsCircle
+									firstName={user.displayName?.split(' ')[0] || 'Hello'}
+									lastName={user.displayName?.split(' ')[1] || 'World'}
 								/>
-							</Link>
-							<Link to="/signup">
-								<Button
-									onClick={handleHamburgerClick}
-									label="Signup"
-									type="secondary"
-								/>
-							</Link>
-						</div>
-					)}
-				</div>
+							</div>
+						) : (
+							<div className="guest">
+								<Link to="/login">
+									<Button
+										onClick={handleHamburgerClick}
+										label="Login"
+										type="secondary"
+									/>
+								</Link>
+								<Link to="/signup">
+									<Button
+										onClick={handleHamburgerClick}
+										label="Signup"
+										type="secondary"
+									/>
+								</Link>
+							</div>
+						)}
+					</div>
+				)}
 			</div>
 		</div>
 	);
