@@ -7,7 +7,7 @@ import {
 import {
 	DISTORTIONS_NAMES_AND_DESCRIPTIONS,
 	DISTORTIONS_TYPE,
-	TABS_THOGUHT_STATES,
+	TABS_THOUGHT_STATES,
 } from '../../const';
 import { IThought } from '../../interfaces';
 import Pill from '../design-library/Pill/Pill';
@@ -26,12 +26,12 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 
 	const user = useAppSelector((state) => state.user.user);
 	const editableCard = user ? thought.createdBy === user.uid : false;
-	const [tabs, setTabs] = useState(TABS_THOGUHT_STATES);
-	const [selectedTab, setSelectedTab] = useState(TABS_THOGUHT_STATES[0].name);
+	const [tabs, setTabs] = useState(TABS_THOUGHT_STATES);
+	const [selectedTab, setSelectedTab] = useState(TABS_THOUGHT_STATES[0].name);
 
 	const dispatch = useAppDispatch();
 
-	function onTabClick(selectedTabName: string) {
+	function onTabClick(selectedTabName: typeof selectedTab) {
 		setTabs((prevTabs) => {
 			return prevTabs.map((tab) => {
 				if (tab.name === selectedTabName) {
@@ -53,9 +53,9 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 	}
 
 	let tabContent;
-	if (selectedTab === TABS_THOGUHT_STATES[0].name) {
+	if (selectedTab === TABS_THOUGHT_STATES[0].name) {
 		tabContent = thought.original;
-	} else if (selectedTab === TABS_THOGUHT_STATES[1].name) {
+	} else if (selectedTab === TABS_THOUGHT_STATES[1].name) {
 		tabContent = thought.rephrased;
 	}
 

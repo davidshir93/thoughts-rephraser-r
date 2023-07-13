@@ -61,7 +61,10 @@ export default function NavBar() {
 				{!isLoading && (
 					<div className={`right-side ${mobileMenuOpen && 'mobile-menu-open'}`}>
 						{navLinks.map((link) => (
-							<NavLink onClick={handleHamburgerClick} to={link.path}>
+							<NavLink
+								key={link.path}
+								onClick={handleHamburgerClick}
+								to={link.path}>
 								{link.title}
 							</NavLink>
 						))}

@@ -34,7 +34,7 @@ export default function ThoughtForm() {
 		(state) => state.thoughts.currentThoughtId
 	);
 	const currentThoughtObj = currentThoughtId
-		? thoughts.find((thoguht) => thoguht.id === currentThoughtId)
+		? thoughts.find((thought) => thought.id === currentThoughtId)
 		: null;
 	const editMode = currentThoughtObj !== null;
 
@@ -195,7 +195,7 @@ export default function ThoughtForm() {
 
 	return (
 		<motion.div variants={itemAnimationParams} initial="hidden" animate="show">
-			<form action="handleSumbit" className="new-thoguht-form">
+			<form action="handleSumbit" className="new-thought-form">
 				<div className="inputs-container">
 					<div className="right-side original">
 						<p className="bold">Original</p>

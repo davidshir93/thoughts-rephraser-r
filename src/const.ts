@@ -1,18 +1,18 @@
-export const TABS_THOGUHT_STATES = [
+export const TABS_THOUGHT_STATES: TABS_THOUGHT_STATES_TYPE[] = [
 	{
 		name: 'original',
 		displayName: 'Original',
 		state: 'active',
-	} as TABS_THOGUHT_STATES_TYPE,
+	},
 	{
 		name: 'rephrased',
 		displayName: 'Rephrased',
 		state: 'inactive',
-	} as TABS_THOGUHT_STATES_TYPE,
+	},
 ];
 
-export type TABS_THOGUHT_STATES_TYPE = {
-	name: string;
+export type TABS_THOUGHT_STATES_TYPE = {
+	name: 'original' | 'rephrased';
 	displayName: string;
 	state: 'active' | 'inactive';
 };

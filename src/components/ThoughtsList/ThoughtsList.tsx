@@ -22,9 +22,9 @@ export default function ThoughtsList() {
 					variants={containerAnimationParams}
 					initial="hidden"
 					animate="show">
-					{thoughts.map((thoguht: IThought) => (
-						<motion.div key={thoguht.id} variants={itemAnimationParams}>
-							<ThoughtCard thought={thoguht} />
+					{thoughts.map((thought: IThought) => (
+						<motion.div key={thought.id} variants={itemAnimationParams}>
+							<ThoughtCard thought={thought} />
 						</motion.div>
 					))}
 				</motion.div>
