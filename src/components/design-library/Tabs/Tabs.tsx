@@ -1,8 +1,10 @@
 import './Tabs.scss';
 
+type tabName = 'original' | 'rephrased';
+
 type TabsProps = {
 	tabs: Tab[];
-	onTabClick: (selectedTabName: string) => void;
+	onTabClick: (selectedTabName: tabName) => void;
 };
 
 type Tab = {
@@ -18,7 +20,7 @@ export default function Tabs({ tabs, onTabClick }: TabsProps) {
 				<div
 					key={tab.name}
 					className={`tab caption ${tab.state}`}
-					onClick={() => onTabClick(tab.name)}>
+					onClick={() => onTabClick(tab.name as tabName)}>
 					{tab.displayName}
 				</div>
 			))}
