@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
 	deleteThought,
@@ -52,12 +52,13 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 		dispatch(setCurrentThought(thought.id || ''));
 	}
 
-	let tabContent;
-	if (selectedTab === TABS_THOUGHT_STATES[0].name) {
-		tabContent = thought.original;
-	} else if (selectedTab === TABS_THOUGHT_STATES[1].name) {
-		tabContent = thought.rephrased;
-	}
+	const tabContent = useMemo(() => {
+		if (selectedTab === TABS_THOUGHT_STATES[0].name) {
+			return thought.original;
+		} else if (selectedTab === TABS_THOUGHT_STATES[1].name) {
+			return thought.rephrased;
+		}
+	}, [selectedTab, thought]);
 
 	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
 		dispatch(setDistortion(distortion));

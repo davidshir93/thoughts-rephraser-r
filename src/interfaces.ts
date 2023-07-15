@@ -33,8 +33,3 @@ export interface IUser {
 	displayName: string;
 	photoUrl: string;
 }
-
-// export interface IDistortion {
-// 	title: string;
-// 	description: string;
-// }

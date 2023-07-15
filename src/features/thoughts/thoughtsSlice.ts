@@ -80,7 +80,6 @@ export const handleError = (dispatch: any, error: any) => {
 export const fetchThoughts = () => async (dispatch: any) => {
 	dispatch(setLoading(true));
 	try {
-		// const snapshot = await db.collection('Thoughts').get();
 		const snapshot = await getDocs(collection(db, 'thoughts'));
 
 		const Thoughts = snapshot.docs.map(
