@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Modal from '../../design-library/Modal/Modal';
 import { DISTORTIONS_NAMES_AND_DESCRIPTIONS } from '../../../const';
 import { setDistortion } from '../../../features/distortion/distortionSlice';
+import { Suspense } from 'react';
+import { Loader } from '../Loader';
 
 export function NavBarLayout() {
 	const dispatch = useAppDispatch();
@@ -29,7 +31,9 @@ export function NavBarLayout() {
 						onBtnClick={closeDistortionModal}
 					/>
 				)}
-				<Outlet />
+				<Suspense fallback={<Loader />}>
+					<Outlet />
+				</Suspense>
 			</div>
 		</div>
 	);
