@@ -1,4 +1,5 @@
 import './Pill.scss';
+import { memo } from 'react';
 
 type PillProps = {
 	label: string;
