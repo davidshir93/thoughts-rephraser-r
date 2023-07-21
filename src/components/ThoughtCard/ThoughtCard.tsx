@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
 	deleteThought,
@@ -60,9 +60,27 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 		}
 	}, [selectedTab, thought]);
 
-	function handleDistortionClick(distortion: keyof DISTORTIONS_TYPE) {
-		dispatch(setDistortion(distortion));
-	}
+	const handleDistortionClick = useCallback(
+		(distortion: keyof DISTORTIONS_TYPE) => {
+			dispatch(setDistortion(distortion));
+		},
+		[thought.distortions]
+	);
+
+	const distortionPills = useMemo(() => {
+		return (
+			thought?.distortions?.length > 0 &&
+			thought.distortions.map((distortion) => (
+				<div key={distortion} className="pill-container">
+					<Pill
+						label={DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title}
+						state="regular"
+						onClick={() => handleDistortionClick(distortion)}
+					/>
+				</div>
+			))
+		);
+	}, [thought.distortions]);
 
 	return (
 		<>
@@ -80,18 +98,7 @@ export default function ThoughtCard({ thought }: ThoughtCardProps) {
 				<Tabs tabs={tabs} onTabClick={onTabClick} />
 				<p className="bold">{tabContent}</p>
 
-				<div className="distortions-tags-container">
-					{thought?.distortions?.length > 0 &&
-						thought.distortions.map((distortion) => (
-							<div key={distortion} className="pill-container">
-								<Pill
-									label={DISTORTIONS_NAMES_AND_DESCRIPTIONS[distortion].title}
-									state="regular"
-									onClick={() => handleDistortionClick(distortion)}
-								/>
-							</div>
-						))}
-				</div>
+				<div className="distortions-tags-container">{distortionPills}</div>
 
 				<p className="caption created-by">Created by {fullName}</p>
 			</div>
