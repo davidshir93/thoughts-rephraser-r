@@ -130,7 +130,7 @@ export default function ThoughtForm() {
 			console.log('Looking for distortions...');
 			setDistortionsLoading(true);
 			const response = await axios.get(
-				'https://thoughts-server.herokuapp.com/distortions',
+				'https://thoughts-server-j5mw.onrender.com/distortions',
 				{
 					params: { sentence: original },
 				}
