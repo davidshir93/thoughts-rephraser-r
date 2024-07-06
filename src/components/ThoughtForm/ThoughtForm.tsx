@@ -137,7 +137,7 @@ export default function ThoughtForm() {
 			);
 			console.log(response.data);
 
-			const resToUse = response.data[0].text;
+			const resToUse = response.data[0].message.content;
 
 			const listOfDistortionsAsString = resToUse
 				.toLowerCase()
